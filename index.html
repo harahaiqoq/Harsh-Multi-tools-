@@ -3,217 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HARSH | PRO TOOL</title>
+    <title>HARSH | ADMIN SYSTEM</title>
     <style>
-        :root {
-            --neon-green: #00ff41;
-            --neon-blue: #00ccff;
-            --dark-bg: #050505;
-        }
+        :root { --neon: #00ffcc; --bg: #050505; }
+        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; text-align: center; padding: 20px; }
+        
+        /* Login Form Styling */
+        #login-screen { margin-top: 100px; }
+        .login-box { background: #111; padding: 30px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; box-shadow: 0 0 20px var(--neon); }
+        input { width: 80%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid var(--neon); color: white; border-radius: 5px; outline: none; }
+        button { background: var(--neon); color: black; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 85%; }
 
-        body {
-            background-color: var(--dark-bg);
-            color: var(--neon-green);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            animation: fadeIn 2s;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            color: var(--neon-blue);
-            text-shadow: 0 0 15px var(--neon-blue);
-            margin: 10px 0;
-        }
-
-        .header p {
-            color: #ff00ff;
-            font-weight: bold;
-            text-shadow: 0 0 5px #ff00ff;
-        }
-
-        .input-box {
-            width: 100%;
-            max-width: 500px;
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid var(--neon-green);
-            border-radius: 50px;
-            color: white;
-            font-size: 16px;
-            text-align: center;
-            outline: none;
-            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
-            transition: 0.5s;
-        }
-
-        input:focus {
-            box-shadow: 0 0 20px var(--neon-green);
-            border-color: var(--neon-blue);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .card {
-            background: rgba(20, 20, 20, 0.8);
-            border: 1px solid #333;
-            padding: 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            text-align: center;
-            transition: 0.4s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
-            transition: 0.5s;
-        }
-
-        .card:hover::before { left: 100%; }
-
-        .card:hover {
-            border-color: var(--neon-green);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 255, 65, 0.2);
-        }
-
-        .card h3 {
-            margin: 0;
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-
-        #result-container {
-            width: 100%;
-            max-width: 500px;
-            margin-top: 30px;
-            display: none;
-            animation: slideUp 0.5s ease;
-        }
-
-        pre {
-            background: #111;
-            padding: 20px;
-            border-left: 5px solid var(--neon-blue);
-            border-radius: 10px;
-            color: #ddd;
-            font-size: 13px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        .loader {
-            display: none;
-            width: 40px;
-            height: 40px;
-            border: 4px solid #111;
-            border-top: 4px solid var(--neon-blue);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 20px;
-        }
-
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
+        /* Main Dashboard Styling (Hidden by default) */
+        #main-content { display: none; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 500px; margin: auto; }
+        .card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 13px; }
+        .card:hover { border-color: white; transform: scale(1.05); box-shadow: 0 0 10px var(--neon); }
+        #res { margin-top: 20px; background: #000; padding: 15px; border-radius: 10px; text-align: left; overflow-x: auto; border: 1px dashed white; display: none; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>HARSH SYSTEM</h1>
-        <p>Welcome Harsh, Kaise Ho? 😈</p>
+    <div id="login-screen">
+        <div class="login-box">
+            <h1 style="font-size: 20px;">🛡️ ADMIN LOGIN</h1>
+            <p style="font-size: 12px; color: #ff00ff;">Enter Credentials to Access System</p>
+            <input type="text" id="user" placeholder="Username">
+            <input type="password" id="pass" placeholder="Password">
+            <button onclick="checkLogin()">AUTHORIZE ACCESS</button>
+        </div>
     </div>
 
-    <div class="input-box">
-        <input type="text" id="userInput" placeholder="TYPE TARGET DATA HERE...">
-    </div>
+    <div id="main-content">
+        <h1>⚡ HARSH PRO SYSTEM ⚡</h1>
+        <p>System Status: <span style="color:white;">AUTHORIZED</span> 😈</p>
+        
+        <input type="text" id="inp" placeholder="Target Number / IP / ID / Username" style="width: 85%; max-width: 450px;">
 
-    <div class="loader" id="hacker-loader"></div>
-
-    <div class="grid">
-        <div class="card" onclick="startLookup('mobile', 'number')"><h3>MOBILE LOOKUP</h3></div>
-        <div class="card" onclick="startLookup('vehicle', 'registration')"><h3>VEHICLE LOOKUP</h3></div>
-        <div class="card" onclick="startLookup('upi', 'id')"><h3>UPI LOOKUP</h3></div>
-        <div class="card" onclick="startLookup('aadhaar', 'id')"><h3>AADHAAR INFO</h3></div>
-        <div class="card" onclick="startLookup('pan', 'id')"><h3>PAN LOOKUP</h3></div>
-        <div class="card" onclick="startLookup('gst', 'id')"><h3>GST INFO</h3></div>
-        <div class="card" onclick="startLookup('ifsc', 'id')"><h3>IFSC DETAILS</h3></div>
-        <div class="card" onclick="startLookup('telegram', 'id')"><h3>TELEGRAM ID</h3></div>
-    </div>
-
-    <div id="result-container">
-        <h2 style="font-size: 14px; color: var(--neon-blue);">[+] DATA RETRIEVED:</h2>
-        <pre id="json-output"></pre>
+        <div class="grid">
+            <div class="card" onclick="run('mobile', 'number')">📱 MOBILE LOOKUP</div>
+            <div class="card" onclick="runIP()">🌐 IP TRACKER</div>
+            <div class="card" onclick="run('vehicle', 'registration')">🚗 VEHICLE LOOKUP</div>
+            <div class="card" onclick="run('instagram', 'username')">📸 INSTA SCRAPER</div>
+            <div class="card" onclick="run('upi', 'id')">💸 UPI LOOKUP</div>
+            <div class="card" onclick="run('aadhaar', 'id')">🆔 AADHAAR INFO</div>
+        </div>
+        <div id="res"></div>
+        <br>
+        <button onclick="location.reload()" style="width: auto; background: red; color: white;">LOGOUT</button>
     </div>
 
     <script>
-        async function startLookup(endpoint, key) {
-            const inputVal = document.getElementById('userInput').value;
-            const loader = document.getElementById('hacker-loader');
-            const resContainer = document.getElementById('result-container');
-            const output = document.getElementById('json-output');
+        // Set your credentials here
+        const ADMIN_USER = "admin";
+        const ADMIN_PASS = "harsh@786";
 
-            if (!inputVal) {
-                alert("Please enter target data first!");
-                return;
+        function checkLogin() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+
+            if (u === ADMIN_USER && p === ADMIN_PASS) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            } else {
+                alert("ACCESS DENIED: Wrong Username or Password!");
             }
+        }
 
-            // UI Interaction
-            loader.style.display = 'block';
-            resContainer.style.display = 'none';
-
+        async function run(ep, key) {
+            const val = document.getElementById('inp').value;
+            const res = document.getElementById('res');
+            if(!val) return alert("Pehle target data dalo!");
+            res.style.display = 'block'; res.innerHTML = "Accessing Secured Database...";
             try {
-                // Constructing URL as per your requirement: /endpoint?key=value
-                const url = `https://api.b77bf911.workers.dev/${endpoint}?${key}=${inputVal}`;
-                
+                const url = `https://api.b77bf911.workers.dev/${ep}?${key}=${val}`;
                 const response = await fetch(url);
                 const data = await response.json();
+                res.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (e) { res.innerHTML = "Error: API Response Fail!"; }
+        }
 
-                loader.style.display = 'none';
-                resContainer.style.display = 'block';
-                
-                // Show JSON beautifully
-                output.textContent = JSON.stringify(data, null, 4);
-                
-                // Auto scroll to result
-                resContainer.scrollIntoView({ behavior: 'smooth' });
-
-            } catch (err) {
-                loader.style.display = 'none';
-                alert("API Error! Check your internet or API status.");
-            }
+        async function runIP() {
+            const val = document.getElementById('inp').value;
+            const res = document.getElementById('res');
+            if(!val) return alert("IP address dalo!");
+            res.style.display = 'block'; res.innerHTML = "Tracking Target IP...";
+            try {
+                const response = await fetch(`https://ipapi.co/${val}/json/`);
+                const data = await response.json();
+                res.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (e) { res.innerHTML = "Error: IP Tracking Fail!"; }
         }
     </script>
 </body>
