@@ -5,47 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HARSH MULTI TOOL</title>
     <style>
-        body { background-color: #0b0e14; color: #00ffcc; font-family: sans-serif; text-align: center; padding: 20px; }
+        body { background-color: #0b0e14; color: #00ffcc; font-family: monospace; text-align: center; padding: 20px; }
         .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 500px; margin: auto; }
         .card { background: #161b22; border: 1px solid #30363d; padding: 15px; border-radius: 10px; cursor: pointer; text-align: left; transition: 0.3s; }
         .card:hover { border-color: #00ffcc; box-shadow: 0 0 10px #00ffcc; }
-        .card h3 { margin: 0; font-size: 16px; color: #00ffcc; }
-        .card p { margin: 5px 0 0; font-size: 12px; color: #8b949e; }
-        input { width: 90%; padding: 12px; margin: 20px 0; background: #0d1117; border: 1px solid #00ffcc; color: white; border-radius: 5px; }
-        #result { background: #161b22; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; display: none; overflow-x: auto; border: 1px dashed #00ffcc; }
+        .card h3 { margin: 0; font-size: 14px; color: #00ffcc; }
+        .card p { margin: 5px 0 0; font-size: 11px; color: #8b949e; }
+        input { width: 90%; padding: 12px; margin: 20px 0; background: #0d1117; border: 1px solid #00ffcc; color: white; border-radius: 5px; outline: none; }
+        #result { background: #161b22; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; display: none; overflow-x: auto; border: 1px dashed #00ffcc; font-size: 12px; }
     </style>
 </head>
 <body>
-    <h1>Welcome Harsh Ethical Hacker</h1>
-    <input type="text" id="target" placeholder="Enter ID / Number / Name...">
+    <h1>⚡ HARSH MULTI TOOL ⚡</h1>
+    <input type="text" id="target" placeholder="Enter Number / ID / Registration...">
     
     <div class="grid-container">
-        <div class="card" onclick="fetchData('mobile')"><h3>Mobile Lookup</h3><p>/mobile</p></div>
-        <div class="card" onclick="fetchData('aadhaar')"><h3>Aadhaar Lookup</h3><p>/aadhaar</p></div>
-        <div class="card" onclick="fetchData('gst')"><h3>GST Lookup</h3><p>/gst</p></div>
-        <div class="card" onclick="fetchData('telegram')"><h3>Telegram Lookup</h3><p>/telegram</p></div>
-        <div class="card" onclick="fetchData('ifsc')"><h3>IFSC Lookup</h3><p>/ifsc</p></div>
-        <div class="card" onclick="fetchData('rashan')"><h3>Ration Card Lookup</h3><p>/rashan</p></div>
-        <div class="card" onclick="fetchData('upi')"><h3>UPI Lookup</h3><p>/upi</p></div>
-        <div class="card" onclick="fetchData('upi2')"><h3>UPI Lookup v2</h3><p>/upi2</p></div>
-        <div class="card" onclick="fetchData('vehicle')"><h3>Vehicle Lookup</h3><p>/vehicle</p></div>
-        <div class="card" onclick="fetchData('v2')"><h3>General Query</h3><p>/v2</p></div>
-        <div class="card" onclick="fetchData('pan')"><h3>PAN Lookup</h3><p>/pan</p></div>
+        <div class="card" onclick="fetchData('mobile', 'number')"><h3>Mobile Lookup</h3><p>/mobile</p></div>
+        <div class="card" onclick="fetchData('aadhaar', 'id')"><h3>Aadhaar Lookup</h3><p>/aadhaar</p></div>
+        <div class="card" onclick="fetchData('gst', 'id')"><h3>GST Lookup</h3><p>/gst</p></div>
+        <div class="card" onclick="fetchData('telegram', 'id')"><h3>Telegram Lookup</h3><p>/telegram</p></div>
+        <div class="card" onclick="fetchData('ifsc', 'id')"><h3>IFSC Lookup</h3><p>/ifsc</p></div>
+        <div class="card" onclick="fetchData('rashan', 'id')"><h3>Ration Card Lookup</h3><p>/rashan</p></div>
+        <div class="card" onclick="fetchData('upi', 'id')"><h3>UPI Lookup</h3><p>/upi</p></div>
+        <div class="card" onclick="fetchData('vehicle', 'registration')"><h3>Vehicle Lookup</h3><p>/vehicle</p></div>
+        <div class="card" onclick="fetchData('pan', 'id')"><h3>PAN Lookup</h3><p>/pan</p></div>
     </div>
 
     <div id="result"></div>
 
     <script>
-        async function fetchData(endpoint) {
+        async function fetchData(endpoint, paramName) {
             const val = document.getElementById('target').value;
             const resDiv = document.getElementById('result');
-            if(!val) return alert("Pehle kuch input dalein!");
+            if(!val) return alert("Bhai, pehle input toh dalo!");
             
             resDiv.style.display = 'block';
-            resDiv.innerHTML = "Fetching...";
+            resDiv.innerHTML = "Fetching data... Please wait...";
             
             try {
-                const response = await fetch(`https://api.b77bf911.workers.dev/${endpoint}?id=${val}`);
+                // Yahan paramName use kiya hai taaki /mobile?number= ho sake
+                const response = await fetch(`https://api.b77bf911.workers.dev/${endpoint}?${paramName}=${val}`);
                 const data = await response.json();
                 resDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
             } catch (e) {
