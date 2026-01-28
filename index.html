@@ -3,95 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HARSH MULTI TOOL</title>
+    <title>HARSH | PRO TOOL</title>
     <style>
-        body { background-color: #0b0e14; color: #00ffcc; font-family: 'Courier New', monospace; text-align: center; padding: 20px; }
-        .welcome-text { color: #58a6ff; font-size: 22px; font-weight: bold; margin-bottom: 10px; text-shadow: 0 0 10px #58a6ff; }
-        .sub-text { color: #ff79c6; margin-bottom: 20px; font-size: 14px; }
-        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 500px; margin: auto; }
-        .card { background: #161b22; border: 1px solid #30363d; padding: 15px; border-radius: 10px; cursor: pointer; text-align: left; transition: 0.3s; }
-        .card:hover { border-color: #00ffcc; box-shadow: 0 0 10px #00ffcc; transform: translateY(-3px); }
-        .card h3 { margin: 0; font-size: 15px; color: #00ffcc; }
-        .card p { margin: 5px 0 0; font-size: 11px; color: #8b949e; }
-        input { width: 90%; padding: 12px; margin: 20px 0; background: #0d1117; border: 1px solid #58a6ff; color: white; border-radius: 5px; outline: none; font-size: 16px; }
-        #result { background: #161b22; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; display: none; overflow-x: auto; border: 1px dashed #00ffcc; font-size: 12px; line-height: 1.5; }
-        .loading { color: yellow; display: none; margin: 10px; }
+        :root {
+            --neon-green: #00ff41;
+            --neon-blue: #00ccff;
+            --dark-bg: #050505;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--neon-green);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 2s;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 15px var(--neon-blue);
+            margin: 10px 0;
+        }
+
+        .header p {
+            color: #ff00ff;
+            font-weight: bold;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+
+        .input-box {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--neon-green);
+            border-radius: 50px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+            transition: 0.5s;
+        }
+
+        input:focus {
+            box-shadow: 0 0 20px var(--neon-green);
+            border-color: var(--neon-blue);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .card:hover::before { left: 100%; }
+
+        .card:hover {
+            border-color: var(--neon-green);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 65, 0.2);
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        #result-container {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 30px;
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        pre {
+            background: #111;
+            padding: 20px;
+            border-left: 5px solid var(--neon-blue);
+            border-radius: 10px;
+            color: #ddd;
+            font-size: 13px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .loader {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #111;
+            border-top: 4px solid var(--neon-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
     </style>
 </head>
 <body>
 
-    <div class="welcome-text">Welcome Harsh, Kaise Ho? 😈</div>
-    <div class="sub-text">⚡ Harsh Ethical Hacker - Multi Information Tool ⚡</div>
-
-    <input type="text" id="targetInput" placeholder="Enter Number, UPI ID, or Vehicle No...">
-    
-    <div class="loading" id="loader">Fetching data from server...</div>
-
-    <div class="grid-container">
-        <div class="card" onclick="apiCall('mobile', 'number')">
-            <h3>Mobile Lookup</h3>
-            <p>/mobile?number=</p>
-        </div>
-
-        <div class="card" onclick="apiCall('vehicle', 'registration')">
-            <h3>Vehicle Lookup</h3>
-            <p>/vehicle?registration=</p>
-        </div>
-
-        <div class="card" onclick="apiCall('upi', 'id')">
-            <h3>UPI Lookup</h3>
-            <p>/upi?id=</p>
-        </div>
-
-        <div class="card" onclick="apiCall('aadhaar', 'id')">
-            <h3>Aadhaar Lookup</h3>
-            <p>/aadhaar?id=</p>
-        </div>
-
-        <div class="card" onclick="apiCall('pan', 'id')">
-            <h3>PAN Lookup</h3>
-            <p>/pan?id=</p>
-        </div>
-
-        <div class="card" onclick="apiCall('ifsc', 'id')">
-            <h3>IFSC Lookup</h3>
-            <p>/ifsc?id=</p>
-        </div>
+    <div class="header">
+        <h1>HARSH SYSTEM</h1>
+        <p>Welcome Harsh, Kaise Ho? 😈</p>
     </div>
 
-    <div id="result"></div>
+    <div class="input-box">
+        <input type="text" id="userInput" placeholder="TYPE TARGET DATA HERE...">
+    </div>
+
+    <div class="loader" id="hacker-loader"></div>
+
+    <div class="grid">
+        <div class="card" onclick="startLookup('mobile', 'number')"><h3>MOBILE LOOKUP</h3></div>
+        <div class="card" onclick="startLookup('vehicle', 'registration')"><h3>VEHICLE LOOKUP</h3></div>
+        <div class="card" onclick="startLookup('upi', 'id')"><h3>UPI LOOKUP</h3></div>
+        <div class="card" onclick="startLookup('aadhaar', 'id')"><h3>AADHAAR INFO</h3></div>
+        <div class="card" onclick="startLookup('pan', 'id')"><h3>PAN LOOKUP</h3></div>
+        <div class="card" onclick="startLookup('gst', 'id')"><h3>GST INFO</h3></div>
+        <div class="card" onclick="startLookup('ifsc', 'id')"><h3>IFSC DETAILS</h3></div>
+        <div class="card" onclick="startLookup('telegram', 'id')"><h3>TELEGRAM ID</h3></div>
+    </div>
+
+    <div id="result-container">
+        <h2 style="font-size: 14px; color: var(--neon-blue);">[+] DATA RETRIEVED:</h2>
+        <pre id="json-output"></pre>
+    </div>
 
     <script>
-        async function apiCall(endpoint, queryParam) {
-            const userInput = document.getElementById('targetInput').value;
-            const resDiv = document.getElementById('result');
-            const loader = document.getElementById('loader');
+        async function startLookup(endpoint, key) {
+            const inputVal = document.getElementById('userInput').value;
+            const loader = document.getElementById('hacker-loader');
+            const resContainer = document.getElementById('result-container');
+            const output = document.getElementById('json-output');
 
-            if(!userInput) {
-                alert("Bhai, pehle kuch enter toh karo!");
+            if (!inputVal) {
+                alert("Please enter target data first!");
                 return;
             }
 
-            // UI Reset
-            resDiv.style.display = 'none';
+            // UI Interaction
             loader.style.display = 'block';
+            resContainer.style.display = 'none';
 
             try {
-                // Yahan correct API structure ban raha hai
-                const finalUrl = `https://api.b77bf911.workers.dev/${endpoint}?${queryParam}=${userInput}`;
+                // Constructing URL as per your requirement: /endpoint?key=value
+                const url = `https://api.b77bf911.workers.dev/${endpoint}?${key}=${inputVal}`;
                 
-                const response = await fetch(finalUrl);
+                const response = await fetch(url);
                 const data = await response.json();
 
                 loader.style.display = 'none';
-                resDiv.style.display = 'block';
+                resContainer.style.display = 'block';
                 
-                // Pretty print JSON result
-                resDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-            } catch (error) {
+                // Show JSON beautifully
+                output.textContent = JSON.stringify(data, null, 4);
+                
+                // Auto scroll to result
+                resContainer.scrollIntoView({ behavior: 'smooth' });
+
+            } catch (err) {
                 loader.style.display = 'none';
-                resDiv.style.display = 'block';
-                resDiv.innerHTML = "<span style='color:red;'>Error: API se data nahi mila! Check your connection.</span>";
+                alert("API Error! Check your internet or API status.");
             }
         }
     </script>
