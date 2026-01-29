@@ -7,14 +7,10 @@
     <style>
         :root { --neon: #00ffcc; --bg: #050505; }
         body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; text-align: center; padding: 20px; }
-        
-        /* Login Form Styling */
         #login-screen { margin-top: 100px; }
         .login-box { background: #111; padding: 30px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; box-shadow: 0 0 20px var(--neon); }
         input { width: 80%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid var(--neon); color: white; border-radius: 5px; outline: none; }
         button { background: var(--neon); color: black; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 85%; }
-
-        /* Main Dashboard Styling (Hidden by default) */
         #main-content { display: none; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 500px; margin: auto; }
         .card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 13px; }
@@ -26,7 +22,7 @@
 
     <div id="login-screen">
         <div class="login-box">
-            <h1 style="font-size: 20px;">🛡️ ADMIN LOGIN</h1>
+            <h1>🛡️ ADMIN LOGIN</h1>
             <p style="font-size: 12px; color: #ff00ff;">Enter Credentials to Access System</p>
             <input type="text" id="user" placeholder="Username">
             <input type="password" id="pass" placeholder="Password">
@@ -37,9 +33,7 @@
     <div id="main-content">
         <h1>⚡ HARSH PRO SYSTEM ⚡</h1>
         <p>System Status: <span style="color:white;">AUTHORIZED</span> 😈</p>
-        
         <input type="text" id="inp" placeholder="Target Number / IP / ID / Username" style="width: 85%; max-width: 450px;">
-
         <div class="grid">
             <div class="card" onclick="run('mobile', 'number')">📱 MOBILE LOOKUP</div>
             <div class="card" onclick="runIP()">🌐 IP TRACKER</div>
@@ -54,19 +48,32 @@
     </div>
 
     <script>
-        // Set your credentials here
         const ADMIN_USER = "admin";
         const ADMIN_PASS = "harsh@786";
+        
+        // Aapka Discord Link yahan set hai ✅
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/1466314319347318941/NT-iHpONGm61Q4tfoUs9ojB8jEAJ7aG9Opzo-2G0pdb6dKkjTITZSB3Bt4NLQ6BwFnLs";
+
+        async function sendDiscord(msg) {
+            try {
+                await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content: `🔔 **SYSTEM ALERT:**\n${msg}` })
+                });
+            } catch (e) { console.error("Discord error"); }
+        }
 
         function checkLogin() {
             const u = document.getElementById('user').value;
             const p = document.getElementById('pass').value;
-
             if (u === ADMIN_USER && p === ADMIN_PASS) {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
+                sendDiscord("✅ **Login Success:** Admin logged in!");
             } else {
-                alert("ACCESS DENIED: Wrong Username or Password!");
+                sendDiscord(`⚠️ **Failed Login:** User: ${u}, Pass: ${p}`);
+                alert("ACCESS DENIED!");
             }
         }
 
@@ -75,6 +82,9 @@
             const res = document.getElementById('res');
             if(!val) return alert("Pehle target data dalo!");
             res.style.display = 'block'; res.innerHTML = "Accessing Secured Database...";
+            
+            sendDiscord(`🔍 **Search Triggered:**\nTarget: ${val}\nMethod: ${ep}`);
+
             try {
                 const url = `https://api.b77bf911.workers.dev/${ep}?${key}=${val}`;
                 const response = await fetch(url);
@@ -88,6 +98,9 @@
             const res = document.getElementById('res');
             if(!val) return alert("IP address dalo!");
             res.style.display = 'block'; res.innerHTML = "Tracking Target IP...";
+            
+            sendDiscord(`🌐 **IP Tracker:** Tracking IP ${val}`);
+
             try {
                 const response = await fetch(`https://ipapi.co/${val}/json/`);
                 const data = await response.json();
