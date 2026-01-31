@@ -3,166 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HARSH | PRO SYSTEM</title>
-    <style>
-        :root { --neon: #00ffcc; --bg: #050505; --pink: #ff00ff; }
-        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; text-align: center; padding: 20px; margin: 0; }
-        
-        /* Neon UI Elements */
-        .login-box { margin-top: 80px; background: #111; padding: 30px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; box-shadow: 0 0 20px var(--neon); width: 85%; max-width: 350px; }
-        input { width: 90%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid var(--neon); color: white; border-radius: 5px; outline: none; }
-        .btn-main { background: var(--neon); color: black; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 95%; margin-top: 10px; }
+    <title>MARSH | PRO SYSTEM SECURE</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-        #main-content { display: none; padding-top: 20px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 500px; margin: 20px auto; }
-        .card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; cursor: pointer; font-size: 11px; transition: 0.3s; text-transform: uppercase; }
-        .card:hover { border-color: white; box-shadow: 0 0 10px var(--neon); transform: scale(1.03); }
-        
-        #log-section { display: none; margin-top: 20px; text-align: left; background: #000; padding: 15px; border: 1px solid var(--pink); border-radius: 10px; max-height: 300px; overflow-y: auto; }
-        .log-entry { border-bottom: 1px solid #222; padding: 8px; font-size: 11px; color: #fff; }
-        
-        .tab-btn { background: #222; color: var(--neon); border: 1px solid var(--neon); padding: 10px; width: 45%; margin: 5px; cursor: pointer; display: none; border-radius: 5px; }
-        .active { background: var(--neon); color: black; }
-        
-        /* API Result Styling */
-        #res { background: #000; padding: 15px; border: 1px dashed white; margin-top: 20px; text-align: left; display: none; color: #0f0; font-size: 12px; white-space: pre-wrap; border-radius: 10px; }
+    <style>
+        /* Aapka puraana CSS yahan rahega */
+        body { background: #050505; color: #00ffcc; font-family: sans-serif; text-align: center; }
+        .hidden { display: none; }
+        input, button { margin: 10px; padding: 12px; border-radius: 5px; border: 1px solid #222; }
+        input { background: #111; color: white; width: 80%; max-width: 300px; }
+        button { background: #00ffcc; color: black; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
-        <div class="login-box">
-            <h1 style="font-size: 20px;">🛡️ SYSTEM AUTH</h1>
-            <input type="text" id="user" placeholder="Username / Gmail">
-            <input type="password" id="pass" placeholder="Password">
-            <button class="btn-main" onclick="checkLogin()">AUTHORIZE ACCESS</button>
-        </div>
+        <h1>@ SYSTEM AUTH</h1>
+        <input type="email" id="user" placeholder="Admin Email">
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick="handleLogin()">LOGIN</button>
     </div>
 
-    <div id="main-content">
-        <h1 id="role-tag" style="text-shadow: 0 0 10px var(--neon);">⚡ HARSH PRO SYSTEM ⚡</h1>
-        
-        <div id="nav">
-            <button id="t1" class="tab-btn active" style="display:inline-block;" onclick="showTab('tools')">🛠️ TOOLS</button>
-            <button id="t2" class="tab-btn" onclick="showTab('logs')">📁 HACKER LOGS</button>
-        </div>
-
-        <div id="tools-view">
-            <input type="text" id="inp" placeholder="Target Number / IP / ID / Username" style="width: 85%;">
-            <div class="grid">
-                <div class="card" onclick="run('mobile', 'number')">📱 MOBILE LOOKUP</div>
-                <div class="card" onclick="runIP()">🌐 IP TRACKER</div>
-                <div class="card" onclick="run('vehicle', 'registration')">🚗 VEHICLE LOOKUP</div>
-                <div class="card" onclick="run('instagram', 'username')">📸 INSTA SCRAPER</div>
-                <div class="card" onclick="run('upi', 'id')">💸 UPI LOOKUP</div>
-                <div class="card" onclick="run('aadhaar', 'id')">🆔 AADHAAR INFO</div>
-            </div>
-            <div id="res"></div>
-        </div>
-
-        <div id="log-section">
-            <h3 style="color:var(--pink); text-align:center; margin-top: 0;">🔴 LIVE ATTEMPT LOGS</h3>
-            <div id="log-list">Connecting to Firestore...</div>
-        </div>
-
-        <br><button onclick="location.reload()" style="background:red; color:white; padding:10px 25px; border:none; border-radius:5px; cursor:pointer; font-weight: bold;">LOGOUT</button>
+    <div id="main-content" class="hidden">
+        <h1>WELCOME ADMIN</h1>
+        <p>Database Connected & Secure</p>
+        <button onclick="handleLogout()">LOGOUT</button>
     </div>
-
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // Firebase Configuration
+        // 1. Apni Firebase Config yahan dalein
         const firebaseConfig = {
-            apiKey: "AIzaSyAyyQVzk9Z0pMEzcc0iNHn-aOAn73-IZ-A",
+            apiKey: "AIzaSy...", 
             authDomain: "my-new-project-33f85.firebaseapp.com",
             projectId: "my-new-project-33f85",
-            storageBucket: "my-new-project-33f85.firebasestorage.app",
+            storageBucket: "my-new-project-33f85.appspot.com",
             messagingSenderId: "1092014213129",
-            appId: "1:1092014213129:web:29dd21e5beb542c1d590d8"
+            appId: "1:1092014213129:web:29d621e5eb542..."
         };
+
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const db = firebase.firestore();
 
-        async function checkLogin() {
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            const time = new Date().toLocaleString();
-            let ip = "0.0.0.0";
-            
-            try {
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                ip = data.ip;
-            } catch(e) {}
+        // 2. Login Function
+        async function handleLogin() {
+            const email = document.getElementById('user').value;
+            const pass = document.getElementById('pass').value;
 
-            // Admin: admin / harsh@786 | Owner: gmail / harsh@1234
-            if(u === "harsh48227@gmail.com" && p === "harsh@1234") {
-                startSession("OWNER", true, u, ip, time);
-            } else if(u === "admin" && p === "harsh@786") {
-                startSession("ADMIN", false, u, ip, time);
+            try {
+                await auth.signInWithEmailAndPassword(email, pass);
+                alert("Login Successful!");
+            } catch (error) {
+                alert("Login Failed: " + error.message);
+            }
+        }
+
+        // 3. Auth Listener (Yeh check karega user logged in hai ya nahi)
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-content').classList.remove('hidden');
             } else {
-                db.collection("hacker_logs").add({ status: "FAILED", user: u, ip: ip, time: time });
-                alert("ACCESS DENIED!");
+                document.getElementById('login-screen').classList.remove('hidden');
+                document.getElementById('main-content').classList.add('hidden');
             }
-        }
+        });
 
-        function startSession(role, showLogs, user, ip, time) {
-            db.collection("hacker_logs").add({ status: "SUCCESS", role: role, user: user, ip: ip, time: time });
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            document.getElementById('role-tag').innerText = `⚡ ${role} SYSTEM ⚡`;
-            if(showLogs) document.getElementById('t2').style.display = 'inline-block';
-        }
-
-        function showTab(type) {
-            document.getElementById('tools-view').style.display = (type === 'tools' ? 'block' : 'none');
-            document.getElementById('log-section').style.display = (type === 'logs' ? 'block' : 'none');
-            document.getElementById('t1').className = (type === 'tools' ? 'tab-btn active' : 'tab-btn');
-            document.getElementById('t2').className = (type === 'logs' ? 'tab-btn active' : 'tab-btn');
-            if(type === 'logs') loadLogs();
-        }
-
-        // --- REAL WORKER API INTEGRATION ---
-        async function run(ep, key) {
-            const val = document.getElementById('inp').value;
-            const res = document.getElementById('res');
-            if(!val) return alert("Pehle target data dalo!");
-            res.style.display = 'block'; 
-            res.innerHTML = `[+] Accessing Worker API for ${ep}...`;
-            
-            try {
-                const url = `https://api.b77bf911.workers.dev/${ep}?${key}=${val}`;
-                const response = await fetch(url);
-                const data = await response.json();
-                res.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-            } catch (e) { 
-                res.innerHTML = "[ERROR] Worker API Response Fail!"; 
-            }
-        }
-
-        async function runIP() {
-            const val = document.getElementById('inp').value;
-            const res = document.getElementById('res');
-            if(!val) return alert("IP address dalo!");
-            res.style.display = 'block'; res.innerHTML = "[+] Tracking Target IP...";
-            try {
-                const response = await fetch(`https://ipapi.co/${val}/json/`);
-                const data = await response.json();
-                res.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-            } catch (e) { res.innerHTML = "[ERROR] IP Tracking Fail!"; }
-        }
-
-        function loadLogs() {
-            db.collection("hacker_logs").orderBy("time", "desc").limit(20).onSnapshot(snap => {
-                let html = "";
-                snap.forEach(doc => {
-                    let d = doc.data();
-                    let color = d.status === "SUCCESS" ? "#0f0" : "#f00";
-                    html += `<div class="log-entry"><b style="color:${color}">[${d.status}]</b> ${d.time}<br>User: ${d.user} | IP: ${d.ip}</div>`;
-                });
-                document.getElementById('log-list').innerHTML = html || "No Records.";
-            });
+        function handleLogout() {
+            auth.signOut();
         }
     </script>
 </body>
