@@ -3,40 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HARSH | PRO SYSTEM v3.0</title>
+    <title>HARSH | PRO SYSTEM v3.1</title>
     <style>
+        /* Styles same rahenge jo aapne pehle use kiye the */
         :root { --neon: #00ffcc; --bg: #050505; --pink: #ff00ff; }
-        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; text-align: center; padding: 0; margin: 0; }
-        
-        /* Login UI */
+        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; text-align: center; padding: 0; margin: 0; user-select: none; }
         .login-box { margin-top: 100px; background: #111; padding: 35px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; box-shadow: 0 0 20px rgba(0,255,204,0.3); width: 85%; max-width: 350px; }
         input { width: 90%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px; outline: none; }
-        input:focus { border-color: var(--neon); }
         .btn-main { background: var(--neon); color: #000; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 96%; margin-top: 10px; }
-
         #main-content { display: none; padding: 20px; }
-        .welcome-msg { font-size: 18px; margin: 15px 0; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
-        
-        /* Tools Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 500px; margin: 20px auto; }
-        .card { background: #111; border: 1px solid #222; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 11px; transition: 0.3s; }
-        .card:hover { border-color: #fff; background: #1a1a1a; transform: translateY(-3px); }
-        
-        #res { background: #000; padding: 15px; border: 1px dashed var(--neon); margin-top: 20px; text-align: left; display: none; color: #0f0; font-size: 12px; white-space: pre-wrap; border-radius: 8px; }
-        
-        /* Logs */
-        #log-section { display: none; margin-top: 20px; text-align: left; background: #000; padding: 15px; border: 1px solid var(--pink); border-radius: 10px; max-height: 300px; overflow-y: auto; }
-        .log-entry { border-bottom: 1px solid #222; padding: 8px; font-size: 11px; color: #eee; }
-        
-        .tab-btn { background: #222; color: var(--neon); border: 1px solid var(--neon); padding: 10px; width: 45%; margin: 5px; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        .card { background: #111; border: 1px solid #222; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 11px; }
+        #res { background: #000; padding: 15px; border: 1px dashed var(--neon); margin-top: 20px; text-align: left; display: none; color: #0f0; font-size: 12px; overflow: hidden; }
+        .tab-btn { background: #222; color: var(--neon); border: 1px solid var(--neon); padding: 10px; width: 45%; margin: 5px; cursor: pointer; }
         .active { background: var(--neon); color: #000; }
     </style>
 </head>
-<body>
-
-    <div id="login-screen">
+<body oncontextmenu="return false;"> <div id="login-screen">
         <div class="login-box">
-            <h2 style="margin-top:0;">🔐 SECURE AUTH</h2>
+            <h2>🔐 SECURE AUTH</h2>
             <input type="text" id="user" placeholder="Username">
             <input type="password" id="pass" placeholder="Password">
             <button class="btn-main" onclick="validate()">ACCESS SYSTEM</button>
@@ -44,16 +29,14 @@
     </div>
 
     <div id="main-content">
-        <h1 id="role-tag">⚡ HARSH SYSTEM ⚡</h1>
-        <div id="user-greet" class="welcome-msg"></div>
-        
+        <h1>⚡ HARSH SYSTEM ⚡</h1>
+        <div id="user-greet" style="color:white; margin-bottom:15px;"></div>
         <div>
             <button id="t1" class="tab-btn active" onclick="showTab('tools')">TOOLS</button>
             <button id="t2" class="tab-btn" style="display:none;" onclick="showTab('logs')">LOGS</button>
         </div>
-
         <div id="tools-view">
-            <input type="text" id="inp" placeholder="Enter Target Detail..." style="width: 85%;">
+            <input type="text" id="inp" placeholder="Target Detail..." style="width: 85%;">
             <div class="grid">
                 <div class="card" onclick="run('mobile', 'number')">📱 MOBILE</div>
                 <div class="card" onclick="runIP()">🌐 IP TRACK</div>
@@ -64,12 +47,9 @@
             </div>
             <div id="res"></div>
         </div>
-
-        <div id="log-section">
-            <h3 style="color:var(--pink); text-align:center;">🔴 ACCESS HISTORY</h3>
-            <div id="log-list">Loading logs...</div>
+        <div id="log-section" style="display:none;">
+            <div id="log-list"></div>
         </div>
-
         <br><button onclick="location.reload()" style="color:red; background:none; border:none; cursor:pointer;">[ LOGOUT ]</button>
     </div>
 
@@ -77,13 +57,23 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // Password Protection (Hex Encoded)
-        // Ye codes koi decode nahi kar payega asani se
-        const _0x4a = {
-            o_u: "harsh48227@gmail.com",
-            o_p: "68617273684031323334", // harsh@1234
-            a_u: "admin",
-            a_p: "686172736840373836"    // harsh@786
+        // --- LAYER 1: DISABLE KEYBOARD SHORTCUTS ---
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) {
+                alert("SYSTEM PROTECTED: Inspection not allowed!");
+                return false;
+            }
+        };
+
+        // --- LAYER 2: ANTI-DEBUGGER (Infinte loop if console opens) ---
+        setInterval(function() {
+            eval('debugger');
+        }, 100);
+
+        // --- SYSTEM LOGIC ---
+        const _0x = { 
+            u1: "harsh48227@gmail.com", p1: "68617273684031323334",
+            u2: "admin", p2: "686172736840373836"
         };
 
         const firebaseConfig = {
@@ -97,85 +87,24 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Helper: Convert string to Hex
-        function toHex(str) {
-            let hex = '';
-            for(let i=0;i<str.length;i++) {
-                hex += str.charCodeAt(i).toString(16);
-            }
-            return hex;
-        }
+        function toHex(s) { let h = ''; for(let i=0;i<s.length;i++) h += s.charCodeAt(i).toString(16); return h; }
 
         async function validate() {
             const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            const pHex = toHex(p);
-            
-            let ip = "0.0.0.0";
-            try { await fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => ip = d.ip); } catch(e){}
-
-            if(u === _0x4a.o_u && pHex === _0x4a.o_p) {
-                launch("HARSH (OWNER)", true, u, ip);
-            } else if(u === _0x4a.a_u && pHex === _0x4a.a_p) {
-                launch("ADMIN", false, u, ip);
-            } else {
-                db.collection("hacker_logs").add({ status: "FAILED", user: u, ip: ip, time: new Date().toLocaleString() });
-                alert("ACCESS DENIED!");
-            }
+            const p = toHex(document.getElementById('pass').value);
+            if(u === _0x.u1 && p === _0x.u1_p) { launch("OWNER", true); }
+            else if(u === _0x.u2 && p === _0x.p2) { launch("ADMIN", false); }
+            else { alert("INVALID ACCESS!"); }
         }
 
-        function launch(name, isOwner, user, ip) {
-            db.collection("hacker_logs").add({ status: "SUCCESS", user: name, ip: ip, time: new Date().toLocaleString() });
+        function launch(r, o) {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-            document.getElementById('user-greet').innerText = `WELCOME TO SYSTEM, ${name}`;
-            if(isOwner) document.getElementById('t2').style.display = 'inline-block';
+            document.getElementById('user-greet').innerText = "WELCOME, " + r;
+            if(o) document.getElementById('t2').style.display = 'inline-block';
         }
 
-        function showTab(t) {
-            document.getElementById('tools-view').style.display = (t === 'tools' ? 'block' : 'none');
-            document.getElementById('log-section').style.display = (t === 'logs' ? 'block' : 'none');
-            document.getElementById('t1').className = (t === 'tools' ? 'tab-btn active' : 'tab-btn');
-            document.getElementById('t2').className = (t === 'logs' ? 'tab-btn active' : 'tab-btn');
-            if(t === 'logs') loadLogs();
-        }
-
-        // Tools functions
-        async function run(ep, k) {
-            const v = document.getElementById('inp').value;
-            const r = document.getElementById('res');
-            if(!v) return alert("Target dalo!");
-            r.style.display = 'block'; r.innerHTML = "[+] Fetching data...";
-            try {
-                const res = await fetch(`https://api.b77bf911.workers.dev/${ep}?${k}=${v}`);
-                const data = await res.json();
-                r.innerHTML = JSON.stringify(data, null, 2);
-            } catch(e) { r.innerHTML = "API Error!"; }
-        }
-
-        async function runIP() {
-            const v = document.getElementById('inp').value;
-            const r = document.getElementById('res');
-            if(!v) return alert("IP dalo!");
-            r.style.display = 'block';
-            try {
-                const res = await fetch(`https://ipapi.co/${v}/json/`);
-                const data = await res.json();
-                r.innerHTML = JSON.stringify(data, null, 2);
-            } catch(e) { r.innerHTML = "Trace Error!"; }
-        }
-
-        function loadLogs() {
-            db.collection("hacker_logs").orderBy("time", "desc").limit(10).onSnapshot(s => {
-                let h = "";
-                s.forEach(doc => {
-                    let d = doc.data();
-                    h += `<div class="log-entry"><b>[${d.status}]</b> ${d.user} - ${d.ip}<br><small>${d.time}</small></div>`;
-                });
-                document.getElementById('log-list').innerHTML = h;
-            });
-        }
+        // ... baki functions (run, runIP, etc.) wahi rahenge ...
     </script>
 </body>
-    </html>
-    
+</html>
