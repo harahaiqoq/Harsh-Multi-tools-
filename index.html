@@ -3,263 +3,288 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MASTER CORE | NEURAL INTERFACE</title>
+<title>NEURAL CORE v5</title>
+
 <style>
-:root {
-  --bg: #010206;
-  --panel: #0d1117;
-  --accent: #00f2ff;
-  --border: rgba(255, 255, 255, 0.08);
-  --text: #c9d1d9;
-  --json-key: #ff7b72;
-  --json-val: #a5d6ff;
-  --json-num: #d2a8ff;
+:root{
+ --bg:#05060a;
+ --panel:#0d1117;
+ --accent:#00f2ff;
+ --border:rgba(255,255,255,.08);
+ --text:#c9d1d9;
+ --key:#ff7b72;
+ --str:#79c0ff;
+ --num:#d2a8ff;
+ --bool:#ffa657;
 }
 
-* { box-sizing: border-box; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-
-body {
-  margin: 0; font-family: 'Inter', sans-serif;
-  background: var(--bg); color: var(--text);
-  height: 100vh; display: flex; overflow: hidden;
+*{box-sizing:border-box;transition:.25s ease}
+body{
+ margin:0;
+ background:radial-gradient(circle at top,#0b1220,#05060a);
+ font-family:Inter,system-ui;
+ color:var(--text);
+ height:100vh;
+ display:flex;
+ overflow:hidden;
 }
 
-/* Sidebar & Layout */
-.sidebar { width: 240px; background: #000; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 30px 15px; }
-.nav-item { padding: 14px 20px; border-radius: 12px; color: #8b949e; cursor: pointer; margin-bottom: 8px; font-size: 14px; display: flex; align-items: center; gap: 10px; }
-.nav-item.active { background: rgba(255,255,255,0.05); color: var(--accent); box-shadow: inset 0 0 10px rgba(0,242,255,0.1); }
-
-.main-view { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: radial-gradient(circle at top right, rgba(0,242,255,0.05), transparent); }
-.container { padding: 30px 40px; overflow-y: auto; flex: 1; }
-
-/* Tool Grid Style */
-.tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 30px; }
-.tool-card { background: var(--panel); border: 1px solid var(--border); padding: 18px; border-radius: 14px; cursor: pointer; text-align: center; }
-.tool-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 0 20px rgba(0,242,255,0.15); }
-.tool-card h4 { margin: 0; color: var(--accent); font-weight: 500; }
-
-/* Advance Output UI */
-.terminal-window {
-  position: relative;
-  background: rgba(0, 0, 0, 0.8);
-  border: 1px solid var(--accent);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+/* LOGIN */
+#login{
+ position:fixed; inset:0;
+ background:#02030a;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ z-index:999;
+}
+.login-box{
+ width:360px;
+ padding:40px;
+ border-radius:24px;
+ background:linear-gradient(180deg,#0d1117,#02030a);
+ border:1px solid var(--border);
+ box-shadow:0 0 80px rgba(0,242,255,.1);
+ text-align:center;
+}
+.login-box h1{
+ color:var(--accent);
+ letter-spacing:4px;
+ font-weight:500;
+}
+.login-box input{
+ width:100%;
+ padding:14px;
+ margin:14px 0;
+ background:#000;
+ border:1px solid var(--border);
+ border-radius:12px;
+ color:var(--accent);
+}
+.login-box button{
+ width:100%;
+ padding:14px;
+ background:var(--accent);
+ border:none;
+ border-radius:12px;
+ font-weight:700;
+ cursor:pointer;
 }
 
-.terminal-header {
-  background: rgba(255,255,255,0.03);
-  padding: 12px 20px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: monospace;
+/* LAYOUT */
+.sidebar{
+ width:240px;
+ background:#000;
+ border-right:1px solid var(--border);
+ padding:24px;
+ display:none;
+ flex-direction:column;
+}
+.brand{
+ color:var(--accent);
+ text-align:center;
+ font-weight:700;
+ letter-spacing:2px;
+ margin-bottom:30px;
+}
+.nav{
+ padding:12px 16px;
+ border-radius:12px;
+ margin-bottom:10px;
+ cursor:pointer;
+ color:#8b949e;
+}
+.nav.active{
+ background:rgba(0,242,255,.08);
+ color:var(--accent);
+}
+.main{
+ flex:1;
+ padding:30px 40px;
+ overflow:auto;
+ display:none;
+}
+input.search{
+ width:100%;
+ padding:14px;
+ border-radius:14px;
+ background:#000;
+ border:1px solid var(--border);
+ color:#fff;
+ margin-bottom:20px;
+}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+ gap:12px;
+}
+.card{
+ background:var(--panel);
+ border:1px solid var(--border);
+ padding:16px;
+ border-radius:16px;
+ text-align:center;
+ cursor:pointer;
+}
+.card:hover{
+ border-color:var(--accent);
+ transform:translateY(-2px);
+}
+.terminal{
+ margin-top:24px;
+ background:#000;
+ border:1px solid var(--accent);
+ border-radius:18px;
+ overflow:hidden;
+}
+.term-head{
+ display:flex;
+ justify-content:space-between;
+ padding:12px 18px;
+ background:#05060a;
+ border-bottom:1px solid var(--border);
+}
+.term-body{
+ padding:20px;
+ font-family:JetBrains Mono,monospace;
+ font-size:13px;
+ max-height:400px;
+ overflow:auto;
+}
+.copy{
+ background:var(--accent);
+ border:none;
+ padding:6px 14px;
+ border-radius:8px;
+ font-weight:800;
+ cursor:pointer;
 }
 
-.copy-btn {
-  background: var(--accent);
-  color: #000;
-  border: none;
-  padding: 5px 12px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 800;
-  cursor: pointer;
-  text-transform: uppercase;
-}
-.copy-btn:active { transform: scale(0.9); }
-
-.terminal-body {
-  padding: 25px;
-  font-family: 'Fira Code', 'JetBrains Mono', monospace;
-  font-size: 13px;
-  line-height: 1.6;
-  max-height: 450px;
-  overflow-y: auto;
-  color: #fff;
-}
-
-/* JSON Coloring */
-.json-key { color: var(--json-key); }
-.json-string { color: var(--json-val); }
-.json-number { color: var(--json-num); }
-.json-boolean { color: #ffa657; }
-
-/* Login Page UI */
-#login-overlay { position: fixed; inset: 0; background: #010206; display: flex; align-items: center; justify-content: center; z-index: 9999; }
-.expensive-box { width: 360px; padding: 40px; background: #0d1117; border: 1px solid var(--border); border-radius: 24px; text-align: center; }
-input { width: 100%; padding: 14px; margin-bottom: 15px; background: #000; border: 1px solid var(--border); border-radius: 10px; color: var(--accent); outline: none; }
-.auth-btn { width: 100%; padding: 14px; background: var(--accent); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: #000; }
-
-#pop-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 10000; }
-.pop-box { background: #0d1117; padding: 30px; border-radius: 20px; border: 2px solid var(--accent); text-align: center; }
+/* JSON COLORS */
+.key{color:var(--key)}
+.str{color:var(--str)}
+.num{color:var(--num)}
+.bool{color:var(--bool)}
 </style>
 </head>
+
 <body>
 
-<div id="login-overlay">
-  <div class="expensive-box">
-    <h2 style="color:var(--accent); letter-spacing:4px;">MASTER</h2>
-    <input type="text" id="uid" placeholder="ID">
-    <input type="password" id="ukey" placeholder="PASSCODE">
-    <button class="auth-btn" onclick="authorize()">ACCESS CORE</button>
+<!-- LOGIN -->
+<div id="login">
+ <div class="login-box">
+  <h1>NEURAL CORE</h1>
+  <input id="u" placeholder="USERNAME">
+  <input id="p" type="password" placeholder="PASSWORD">
+  <button onclick="login()">ACCESS SYSTEM</button>
+ </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="side">
+ <div class="brand">NEURAL v5</div>
+ <div class="nav active">Dashboard</div>
+ <button onclick="logout()" style="margin-top:auto;border:1px solid red;color:red;background:none;padding:10px;border-radius:10px">LOGOUT</button>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main">
+ <h3 id="status">SYSTEM: OFFLINE</h3>
+ <input class="search" id="target" placeholder="Enter input…">
+
+ <div class="grid">
+  <div class="card" onclick="query('mobile')">Mobile</div>
+  <div class="card" onclick="query('aadhar')">Aadhar</div>
+  <div class="card" onclick="query('vehicle')">Vehicle</div>
+  <div class="card" onclick="query('upi')">UPI</div>
+ </div>
+
+ <div class="terminal">
+  <div class="term-head">
+   <span>RAW_DATA_STREAM</span>
+   <button class="copy" onclick="copyJSON()">COPY JSON</button>
   </div>
+  <div class="term-body" id="out">Awaiting command…</div>
+ </div>
 </div>
-
-<div class="sidebar" id="sidebar" style="display:none;">
-  <div style="font-weight: 800; color: var(--accent); margin-bottom: 30px; text-align: center; letter-spacing: 2px;">NEURAL v4</div>
-  <div class="nav-item active" onclick="tab('tools')">Dashboard</div>
-  <div class="nav-item" onclick="tab('logs')">Telemetry Logs</div>
-  <div class="nav-item" id="master-only" style="display:none;" onclick="tab('nodes')">System Nodes</div>
-  <button onclick="location.reload()" style="margin-top:auto; padding:12px; background:transparent; border:1px solid #ff3d3d; color:#ff3d3d; border-radius:10px; cursor:pointer;">KILL SESSION</button>
-</div>
-
-<div class="main-view" id="main-ui" style="display:none;">
-  <div class="container">
-    <div id="view-tools">
-      <h3 id="greet" style="font-weight:300; margin-bottom:20px;">SYSTEM: IDLE</h3>
-      <input type="text" id="target" placeholder="Input target payload...">
-      <div class="tools-grid">
-        <div class="tool-card" onclick="runQuery('mobile')"><h4>Mobile</h4></div>
-        <div class="tool-card" onclick="runQuery('aadhar')"><h4>Aadhar</h4></div>
-        <div class="tool-card" onclick="runQuery('gst')"><h4>GST</h4></div>
-        <div class="tool-card" onclick="runQuery('pan')"><h4>PAN</h4></div>
-        <div class="tool-card" onclick="runQuery('vehicle')"><h4>Vehicle</h4></div>
-        <div class="tool-card" onclick="runQuery('upi')"><h4>UPI</h4></div>
-        <div class="tool-card" onclick="runQuery('telegram')"><h4>Telegram</h4></div>
-        <div class="tool-card" onclick="runQuery('rashan')"><h4>Rashan</h4></div>
-      </div>
-
-      <div class="terminal-window">
-        <div class="terminal-header">
-          <span>RAW_DATA_STREAM</span>
-          <button class="copy-btn" onclick="copyData()">Copy JSON</button>
-        </div>
-        <div class="terminal-body" id="json-body">>> Awaiting command execution...</div>
-      </div>
-    </div>
-
-    <div id="view-logs" style="display:none;"><div class="terminal-body" id="log-list"></div></div>
-    <div id="view-nodes" style="display:none;"><div id="node-list"></div></div>
-  </div>
-</div>
-
-<div id="pop-overlay">
-  <div class="pop-box"><p id="pop-msg"></p><br><button onclick="closePop()" class="auth-btn" style="width:120px;">OK</button></div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <script>
-const firebaseConfig = {
-    apiKey: "AIzaSyAyyQVzk9Z0pMEzcc0iNHn-aOAn73-IZ-A",
-    authDomain: "my-new-project-33f85.firebaseapp.com",
-    projectId: "my-new-project-33f85",
-    storageBucket: "my-new-project-33f85.firebasestorage.app",
-    messagingSenderId: "1092014213129",
-    appId: "1:1092014213129:web:29dd21e5beb542c1d590d8"
+let rawJSON="";
+
+/* LOGIN */
+function login(){
+ const u = document.getElementById('u').value.trim();
+ const p = document.getElementById('p').value.trim();
+
+ if(!u || !p){
+  alert("Username aur Password daalo");
+  return;
+ }
+
+ if(u==="Admin" && p==="harsh@1234"){
+  localStorage.setItem("role","OWNER");
+ }else if(u==="Admin" && p==="harsh@123"){
+  sessionStorage.setItem("role","USER");
+ }else{
+  alert("Invalid Credentials");
+  return;
+ }
+ init();
+}
+
+/* INIT */
+function init(){
+ document.getElementById('login').style.display="none";
+ document.getElementById('side').style.display="flex";
+ document.getElementById('main').style.display="block";
+
+ const role = localStorage.getItem("role") || sessionStorage.getItem("role");
+ document.getElementById('status').innerText = `SYSTEM: ONLINE | ROLE: ${role}`;
+}
+
+/* AUTO LOGIN */
+window.onload = ()=>{
+ const role = localStorage.getItem("role") || sessionStorage.getItem("role");
+ if(role) init();
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
 
-let currentData = "";
-
-window.onload = function() {
-  if(performance.navigation.type == 1 && sessionStorage.getItem("active")) {
-    if(sessionStorage.getItem("isMaster") === "true") {
-      showPop("Master yeh aap kya kar raha ho aap mera master ho mein aapko logout kasie kar skata hu");
-    } else {
-      sessionStorage.clear(); location.reload();
-    }
-  }
+/* LOGOUT */
+function logout(){
+ localStorage.clear();
+ sessionStorage.clear();
+ location.reload();
 }
 
-function showPop(m) { document.getElementById('pop-msg').innerText = m; document.getElementById('pop-overlay').style.display = 'flex'; }
-function closePop() { document.getElementById('pop-overlay').style.display = 'none'; }
-
-function highlight(json) {
-    if (typeof json != 'string') json = JSON.stringify(json, null, 2);
-    currentData = json; // For copying
-    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function (match) {
-        var cls = 'json-number';
-        if (/^"/.test(match)) {
-            cls = /:$/.test(match) ? 'json-key' : 'json-string';
-        } else if (/true|false/.test(match)) {
-            cls = 'json-boolean';
-        }
-        return '<span class="' + cls + '">' + match + '</span>';
-    });
+/* JSON FORMAT */
+function highlight(obj){
+ rawJSON = JSON.stringify(obj,null,2);
+ return rawJSON
+  .replace(/"(.*?)":/g,'<span class="key">"$1"</span>:')
+  .replace(/"(.*?)"/g,'<span class="str">"$1"</span>')
+  .replace(/\b\d+\b/g,'<span class="num">$&</span>')
+  .replace(/\btrue|false\b/g,'<span class="bool">$&</span>');
 }
 
-function copyData() {
-  if(!currentData) return;
-  navigator.clipboard.writeText(currentData);
-  const btn = document.querySelector('.copy-btn');
-  btn.innerText = "COPIED!";
-  setTimeout(() => btn.innerText = "Copy JSON", 2000);
+/* QUERY */
+async function query(type){
+ const v=document.getElementById('target').value;
+ if(!v) return alert("Enter value");
+
+ const api = atob("aHR0cHM6Ly9hcGkuYjc3YmY5MTEud29ya2Vycy5kZXYv");
+ const p = type==="mobile"?"number":"id";
+
+ const r = await fetch(`${api}${type}?${p}=${v}`);
+ const d = await r.json();
+
+ document.getElementById('out').innerHTML = highlight(d);
 }
 
-async function authorize() {
-  const u = document.getElementById('uid').value;
-  const p = document.getElementById('ukey').value;
-  if(u === "Admin" && p === "harsh@1234") {
-    sessionStorage.setItem("isMaster", "true");
-    const colors = ['#00f2ff', '#d400ff', '#00ff66', '#ffaa00'];
-    document.documentElement.style.setProperty('--accent', colors[Math.floor(Math.random()*colors.length)]);
-    document.getElementById('master-only').style.display = "flex";
-  } else if(u === "Admin" && p === "harsh@123") {
-    sessionStorage.setItem("isMaster", "false");
-  } else { return alert("Invalid Access"); }
-
-  sessionStorage.setItem("active", "true");
-  document.getElementById('login-overlay').style.display = "none";
-  document.getElementById('sidebar').style.display = "flex";
-  document.getElementById('main-ui').style.display = "flex";
-  document.getElementById('greet').innerText = "SYSTEM: AUTHORIZED";
-  sync();
-}
-
-async function runQuery(type) {
-  const val = document.getElementById('target').value;
-  if(!val) return alert("Enter Value");
-  const body = document.getElementById('json-body');
-  body.innerHTML = ">> Decrypting Secure Stream...";
-
-  try {
-    const api = atob("aHR0cHM6Ly9hcGkuYjc3YmY5MTEud29ya2Vycy5kZXYv");
-    const param = (type === 'mobile') ? 'number' : 'id';
-    const res = await fetch(`${api}${type}?${param}=${val}`);
-    const data = await res.json();
-    body.innerHTML = highlight(data);
-
-    db.collection("all_activity").add({
-      user: sessionStorage.getItem("isMaster") === "true" ? "Master" : "User",
-      action: "QUERY", details: `${type} -> ${val}`,
-      time: new Date().toLocaleString(), timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  } catch(e) { body.innerText = ">> Connection Failure."; }
-}
-
-function tab(t) {
-  ['view-tools', 'view-logs', 'view-nodes'].forEach(id => document.getElementById(id).style.display = 'none');
-  document.getElementById('view-' + t).style.display = 'block';
-}
-
-function sync() {
-  db.collection("all_activity").orderBy("timestamp", "desc").onSnapshot(snap => {
-    let lh = ""; let nh = "";
-    snap.forEach(doc => {
-      const d = doc.data();
-      lh += `<div style="padding:10px; border-bottom:1px solid #111;"><b style="color:var(--accent)">[${d.user}]</b> ${d.details || 'Identity Verified'}<br><small>${d.time}</small></div>`;
-      if(d.battery) nh += `<div style="background:#111; padding:15px; border-radius:10px; margin-bottom:10px; border-left:4px solid var(--accent);"><b>${d.user}</b> | Device: ${d.device}<br><small>${d.time}</small></div>`;
-    });
-    document.getElementById('log-list').innerHTML = lh;
-    document.getElementById('node-list').innerHTML = nh;
-  });
+/* COPY */
+function copyJSON(){
+ navigator.clipboard.writeText(rawJSON);
+ alert("JSON Copied");
 }
 </script>
+
 </body>
-</html>
+  </html>
