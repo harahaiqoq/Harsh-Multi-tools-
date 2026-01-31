@@ -1,290 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEURAL CORE v5</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECURE SYSTEM | FIXED</title>
+    <style>
+        :root { --main-color: #00ffcc; --bg: #050505; }
+        body { background: var(--bg); color: var(--main-color); font-family: 'Courier New', monospace; text-align: center; margin: 0; }
+        
+        /* Fixed Login Screen */
+        #login-screen { height: 100vh; display: flex; align-items: center; justify-content: center; background: #000; }
+        .login-box { background: #111; padding: 40px; border-radius: 10px; border: 2px solid var(--main-color); width: 300px; box-shadow: 0 0 20px rgba(0,255,204,0.3); }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid var(--main-color); color: #fff; border-radius: 5px; box-sizing: border-box; }
+        .btn-main { background: var(--main-color); color: #000; padding: 12px; border: none; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
 
-<style>
-:root{
- --bg:#05060a;
- --panel:#0d1117;
- --accent:#00f2ff;
- --border:rgba(255,255,255,.08);
- --text:#c9d1d9;
- --key:#ff7b72;
- --str:#79c0ff;
- --num:#d2a8ff;
- --bool:#ffa657;
-}
+        /* Dashboard */
+        #main-content { display: none; padding: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 500px; margin: 20px auto; }
+        .card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 8px; cursor: pointer; font-size: 11px; transition: 0.2s; }
+        .card:hover { border-color: var(--main-color); background: #1a1a1a; }
+        
+        #res { background: #000; border: 1px dashed #555; padding: 15px; margin-top: 20px; text-align: left; display: none; border-radius: 10px; overflow-x: auto; }
+        pre { color: #0f0; font-size: 12px; margin: 0; white-space: pre-wrap; word-wrap: break-word; }
 
-*{box-sizing:border-box;transition:.25s ease}
-body{
- margin:0;
- background:radial-gradient(circle at top,#0b1220,#05060a);
- font-family:Inter,system-ui;
- color:var(--text);
- height:100vh;
- display:flex;
- overflow:hidden;
-}
-
-/* LOGIN */
-#login{
- position:fixed; inset:0;
- background:#02030a;
- display:flex;
- align-items:center;
- justify-content:center;
- z-index:999;
-}
-.login-box{
- width:360px;
- padding:40px;
- border-radius:24px;
- background:linear-gradient(180deg,#0d1117,#02030a);
- border:1px solid var(--border);
- box-shadow:0 0 80px rgba(0,242,255,.1);
- text-align:center;
-}
-.login-box h1{
- color:var(--accent);
- letter-spacing:4px;
- font-weight:500;
-}
-.login-box input{
- width:100%;
- padding:14px;
- margin:14px 0;
- background:#000;
- border:1px solid var(--border);
- border-radius:12px;
- color:var(--accent);
-}
-.login-box button{
- width:100%;
- padding:14px;
- background:var(--accent);
- border:none;
- border-radius:12px;
- font-weight:700;
- cursor:pointer;
-}
-
-/* LAYOUT */
-.sidebar{
- width:240px;
- background:#000;
- border-right:1px solid var(--border);
- padding:24px;
- display:none;
- flex-direction:column;
-}
-.brand{
- color:var(--accent);
- text-align:center;
- font-weight:700;
- letter-spacing:2px;
- margin-bottom:30px;
-}
-.nav{
- padding:12px 16px;
- border-radius:12px;
- margin-bottom:10px;
- cursor:pointer;
- color:#8b949e;
-}
-.nav.active{
- background:rgba(0,242,255,.08);
- color:var(--accent);
-}
-.main{
- flex:1;
- padding:30px 40px;
- overflow:auto;
- display:none;
-}
-input.search{
- width:100%;
- padding:14px;
- border-radius:14px;
- background:#000;
- border:1px solid var(--border);
- color:#fff;
- margin-bottom:20px;
-}
-.grid{
- display:grid;
- grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
- gap:12px;
-}
-.card{
- background:var(--panel);
- border:1px solid var(--border);
- padding:16px;
- border-radius:16px;
- text-align:center;
- cursor:pointer;
-}
-.card:hover{
- border-color:var(--accent);
- transform:translateY(-2px);
-}
-.terminal{
- margin-top:24px;
- background:#000;
- border:1px solid var(--accent);
- border-radius:18px;
- overflow:hidden;
-}
-.term-head{
- display:flex;
- justify-content:space-between;
- padding:12px 18px;
- background:#05060a;
- border-bottom:1px solid var(--border);
-}
-.term-body{
- padding:20px;
- font-family:JetBrains Mono,monospace;
- font-size:13px;
- max-height:400px;
- overflow:auto;
-}
-.copy{
- background:var(--accent);
- border:none;
- padding:6px 14px;
- border-radius:8px;
- font-weight:800;
- cursor:pointer;
-}
-
-/* JSON COLORS */
-.key{color:var(--key)}
-.str{color:var(--str)}
-.num{color:var(--num)}
-.bool{color:var(--bool)}
-</style>
+        #log-section { display: none; text-align: left; background: #000; border: 1px solid #ff00ff; padding: 15px; margin-top: 20px; border-radius: 10px; max-height: 300px; overflow-y: auto; }
+        .log-entry { border-bottom: 1px solid #222; padding: 8px; font-size: 11px; color: #eee; }
+        
+        .tab-btn { background: #222; color: #fff; border: 1px solid #444; padding: 8px 15px; margin: 5px; cursor: pointer; display: none; }
+        .active { background: var(--main-color); color: #000; }
+    </style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
-<div id="login">
- <div class="login-box">
-  <h1>NEURAL CORE</h1>
-  <input id="u" placeholder="USERNAME">
-  <input id="p" type="password" placeholder="PASSWORD">
-  <button onclick="login()">ACCESS SYSTEM</button>
- </div>
-</div>
+    <div id="login-screen">
+        <div class="login-box">
+            <h2 style="color: var(--main-color);">SYSTEM AUTH</h2>
+            <input type="text" id="user" placeholder="Username">
+            <input type="password" id="pass" placeholder="Password">
+            <button class="btn-main" onclick="processLogin()">LOGIN</button>
+        </div>
+    </div>
 
-<!-- SIDEBAR -->
-<div class="sidebar" id="side">
- <div class="brand">NEURAL v5</div>
- <div class="nav active">Dashboard</div>
- <button onclick="logout()" style="margin-top:auto;border:1px solid red;color:red;background:none;padding:10px;border-radius:10px">LOGOUT</button>
-</div>
+    <div id="main-content">
+        <h1 id="role-tag">SYSTEM ACCESS</h1>
+        
+        <div>
+            <button id="t1" class="tab-btn" style="display:inline-block;" onclick="showTab('tools')">TOOLS</button>
+            <button id="t2" class="tab-btn" onclick="showTab('logs')">OWNER LOGS</button>
+        </div>
 
-<!-- MAIN -->
-<div class="main" id="main">
- <h3 id="status">SYSTEM: OFFLINE</h3>
- <input class="search" id="target" placeholder="Enter input…">
+        <div id="tools-view">
+            <input type="text" id="inp" placeholder="Target Data..." style="width: 80%; max-width: 400px;">
+            <div class="grid">
+                <div class="card" onclick="runTool('mobile', 'number')">MOBILE LOOKUP</div>
+                <div class="card" onclick="runIP()">IP TRACKER</div>
+                <div class="card" onclick="runTool('instagram', 'username')">INSTA DATA</div>
+                <div class="card" onclick="runTool('upi', 'id')">UPI VERIFY</div>
+            </div>
+            <div id="res"><pre id="output-json"></pre></div>
+        </div>
 
- <div class="grid">
-  <div class="card" onclick="query('mobile')">Mobile</div>
-  <div class="card" onclick="query('aadhar')">Aadhar</div>
-  <div class="card" onclick="query('vehicle')">Vehicle</div>
-  <div class="card" onclick="query('upi')">UPI</div>
- </div>
+        <div id="log-section">
+            <h4 style="color:#ff00ff; margin:0 0 10px 0;">HISTORY LOGS (WITH BATTERY)</h4>
+            <div id="log-list">Fetching...</div>
+        </div>
 
- <div class="terminal">
-  <div class="term-head">
-   <span>RAW_DATA_STREAM</span>
-   <button class="copy" onclick="copyJSON()">COPY JSON</button>
-  </div>
-  <div class="term-body" id="out">Awaiting command…</div>
- </div>
-</div>
+        <button onclick="location.reload()" style="background:red; color:white; border:none; padding:10px; margin-top:20px; cursor:pointer;">LOGOUT</button>
+    </div>
 
-<script>
-let rawJSON="";
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-/* LOGIN */
-function login(){
- const u = document.getElementById('u').value.trim();
- const p = document.getElementById('p').value.trim();
+    <script>
+        // Firebase Init
+        const firebaseConfig = {
+            apiKey: "AIzaSyAyyQVzk9Z0pMEzcc0iNHn-aOAn73-IZ-A",
+            authDomain: "my-new-project-33f85.firebaseapp.com",
+            projectId: "my-new-project-33f85",
+            storageBucket: "my-new-project-33f85.firebasestorage.app",
+            messagingSenderId: "1092014213129",
+            appId: "1:1092014213129:web:29dd21e5beb542c1d590d8"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
- if(!u || !p){
-  alert("Username aur Password daalo");
-  return;
- }
+        async function processLogin() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            const time = new Date().toLocaleString();
+            
+            let batteryLevel = "N/A";
+            try {
+                const batt = await navigator.getBattery();
+                batteryLevel = (batt.level * 100) + "%";
+            } catch(e) {}
 
- if(u==="Admin" && p==="harsh@1234"){
-  localStorage.setItem("role","OWNER");
- }else if(u==="Admin" && p==="harsh@123"){
-  sessionStorage.setItem("role","USER");
- }else{
-  alert("Invalid Credentials");
-  return;
- }
- init();
-}
+            let userIP = "Fetching...";
+            try {
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipRes.json();
+                userIP = ipData.ip;
+            } catch(e) {}
 
-/* INIT */
-function init(){
- document.getElementById('login').style.display="none";
- document.getElementById('side').style.display="flex";
- document.getElementById('main').style.display="block";
+            // Role Check Logic
+            if(u === "admin" && p === "harsh@123") {
+                loginSuccess("ADMIN", "#00d9ff", u, userIP, time, batteryLevel);
+            } else if(u === "admin" && p === "harsh@1234") {
+                const randomNeon = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                loginSuccess("OWNER", randomNeon, u, userIP, time, batteryLevel);
+            } else {
+                db.collection("hacker_logs").add({ user: u, status: "FAILED", time: time, ip: userIP, battery: batteryLevel });
+                alert("Login Failed!");
+            }
+        }
 
- const role = localStorage.getItem("role") || sessionStorage.getItem("role");
- document.getElementById('status').innerText = `SYSTEM: ONLINE | ROLE: ${role}`;
-}
+        function loginSuccess(role, color, u, ip, time, batt) {
+            db.collection("hacker_logs").add({ user: u, role: role, status: "SUCCESS", time: time, ip: ip, battery: batt });
+            
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('role-tag').innerText = `⚡ ${role} PANEL ⚡`;
+            document.documentElement.style.setProperty('--main-color', color);
+            
+            if(role === "OWNER") {
+                document.getElementById('t2').style.display = 'inline-block';
+            }
+        }
 
-/* AUTO LOGIN */
-window.onload = ()=>{
- const role = localStorage.getItem("role") || sessionStorage.getItem("role");
- if(role) init();
-};
+        function showTab(tab) {
+            document.getElementById('tools-view').style.display = (tab === 'tools' ? 'block' : 'none');
+            document.getElementById('log-section').style.display = (tab === 'logs' ? 'block' : 'none');
+            if(tab === 'logs') loadLogs();
+        }
 
-/* LOGOUT */
-function logout(){
- localStorage.clear();
- sessionStorage.clear();
- location.reload();
-}
+        async function runTool(ep, key) {
+            const val = document.getElementById('inp').value;
+            if(!val) return alert("Data dalo!");
+            const out = document.getElementById('output-json');
+            document.getElementById('res').style.display = 'block';
+            out.innerText = "Loading API Data...";
 
-/* JSON FORMAT */
-function highlight(obj){
- rawJSON = JSON.stringify(obj,null,2);
- return rawJSON
-  .replace(/"(.*?)":/g,'<span class="key">"$1"</span>:')
-  .replace(/"(.*?)"/g,'<span class="str">"$1"</span>')
-  .replace(/\b\d+\b/g,'<span class="num">$&</span>')
-  .replace(/\btrue|false\b/g,'<span class="bool">$&</span>');
-}
+            try {
+                const response = await fetch(`https://api.b77bf911.workers.dev/${ep}?${key}=${val}`);
+                const data = await response.json();
+                out.innerText = JSON.stringify(data, null, 4);
+            } catch (e) {
+                out.innerText = "API ERROR: Request could not be completed.";
+            }
+        }
 
-/* QUERY */
-async function query(type){
- const v=document.getElementById('target').value;
- if(!v) return alert("Enter value");
+        async function runIP() {
+            const val = document.getElementById('inp').value;
+            const out = document.getElementById('output-json');
+            document.getElementById('res').style.display = 'block';
+            try {
+                const res = await fetch(`https://ipapi.co/${val}/json/`);
+                const data = await res.json();
+                out.innerText = JSON.stringify(data, null, 4);
+            } catch(e) { out.innerText = "IP API ERROR"; }
+        }
 
- const api = atob("aHR0cHM6Ly9hcGkuYjc3YmY5MTEud29ya2Vycy5kZXYv");
- const p = type==="mobile"?"number":"id";
-
- const r = await fetch(`${api}${type}?${p}=${v}`);
- const d = await r.json();
-
- document.getElementById('out').innerHTML = highlight(d);
-}
-
-/* COPY */
-function copyJSON(){
- navigator.clipboard.writeText(rawJSON);
- alert("JSON Copied");
-}
-</script>
-
+        function loadLogs() {
+            db.collection("hacker_logs").orderBy("time", "desc").limit(20).onSnapshot(snap => {
+                let html = "";
+                snap.forEach(doc => {
+                    let d = doc.data();
+                    html += `<div class="log-entry">
+                        <b>[${d.status}]</b> ${d.time}<br>
+                        User: ${d.user} | IP: ${d.ip}<br>
+                        Battery: ${d.battery || 'Unknown'}
+                    </div>`;
+                });
+                document.getElementById('log-list').innerHTML = html;
+            });
+        }
+    </script>
 </body>
-  </html>
+</html>
