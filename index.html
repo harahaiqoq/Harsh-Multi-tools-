@@ -3,78 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MASTER | NEON SYSTEM</title>
+    <title>MASTER | NEON DYNAMIC</title>
     <style>
         :root { 
-            --user-color: #39ff14; /* Green */
-            --owner-color: #00d2ff; /* Blue */
+            --user-color: #39ff14; 
             --bg: #050505; 
         }
-        body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; text-align: center; margin: 0; transition: 0.5s; }
+        body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; text-align: center; margin: 0; transition: 0.8s; }
         
-        /* Dynamic Theme classes */
-        .theme-user { --current: var(--user-color); color: var(--user-color); }
-        .theme-owner { --current: var(--owner-color); color: var(--owner-color); }
-
-        .container { 
-            border: 2px solid var(--current); 
-            box-shadow: 0 0 15px var(--current); 
-            padding: 25px; margin: 50px auto; width: 85%; max-width: 500px; border-radius: 15px; 
+        /* Default Neon */
+        .neon-box { 
+            border: 2px solid var(--current-color, var(--user-color)); 
+            box-shadow: 0 0 20px var(--current-color, var(--user-color)); 
+            padding: 25px; margin: 50px auto; width: 85%; max-width: 450px; border-radius: 15px; 
+            background: rgba(0,0,0,0.8);
         }
 
         input { 
-            width: 80%; padding: 12px; margin: 10px 0; background: #000; 
-            border: 1px solid var(--current); color: #fff; border-radius: 5px; 
+            width: 85%; padding: 12px; margin: 10px 0; background: #000; 
+            border: 1px solid var(--current-color, var(--user-color)); color: #fff; border-radius: 5px; outline: none;
         }
 
-        .tab-btn { 
-            background: transparent; border: 1px solid var(--current); color: var(--current);
-            padding: 10px 20px; cursor: pointer; margin: 5px; border-radius: 5px;
+        .btn { 
+            background: transparent; border: 1px solid var(--current-color, var(--user-color)); color: var(--current-color, var(--user-color));
+            padding: 10px 20px; cursor: pointer; margin: 5px; border-radius: 5px; font-weight: bold;
         }
-        .active-tab { background: var(--current) !important; color: #000 !important; }
+        .btn:hover, .active-tab { background: var(--current-color, var(--user-color)) !important; color: #000 !important; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .card { border: 1px solid #333; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; font-size: 12px; cursor: pointer; }
-        .card:hover { border-color: var(--current); }
+        .card { border: 1px solid #333; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; font-size: 11px; cursor: pointer; transition: 0.3s; }
+        .card:hover { border-color: var(--current-color); transform: scale(1.02); }
 
-        #res { background: #000; border: 1px dashed var(--current); padding: 10px; margin-top: 15px; text-align: left; display: none; font-size: 11px; white-space: pre-wrap; }
+        #res { background: #000; border: 1px dashed var(--current-color); padding: 15px; margin-top: 15px; text-align: left; display: none; font-size: 12px; color: #0f0; white-space: pre-wrap; overflow-x: auto; }
         
-        .log-item { border-bottom: 1px solid #222; padding: 8px; text-align: left; font-size: 10px; }
+        .log-item { border-bottom: 1px solid #222; padding: 10px; text-align: left; font-size: 11px; line-height: 1.5; }
+        .log-item b { color: var(--current-color); }
     </style>
 </head>
-<body class="theme-user">
+<body>
 
-    <div id="login-screen" class="container">
-        <h2 id="login-title">SYSTEM AUTHORIZATION</h2>
-        <input type="text" id="email" placeholder="Email / Username">
+    <div id="login-screen" class="neon-box">
+        <h2 id="login-title">SYSTEM ACCESS</h2>
+        <input type="text" id="email" placeholder="Email / ID">
         <input type="password" id="pass" placeholder="Password">
         <br>
-        <button class="tab-btn" onclick="handleLogin()">LOGIN</button>
+        <button class="btn" onclick="handleLogin()">ENTER SYSTEM</button>
     </div>
 
-    <div id="dashboard" class="container" style="display:none;">
-        <h2 id="greet-msg">Welcome to User</h2>
-        <hr style="border:0.5px solid #333">
+    <div id="dashboard" class="neon-box" style="display:none;">
+        <h2 id="greet-msg" style="text-shadow: 0 0 10px var(--current-color);">Welcome Admin</h2>
         
-        <div id="owner-tabs" style="display:none; margin-bottom:15px;">
-            <button id="t1" class="tab-btn active-tab" onclick="switchTab('tools')">🛠 TOOLS</button>
-            <button id="t2" class="tab-btn" onclick="switchTab('logs')">📁 MASTER LOGS</button>
+        <div id="owner-controls" style="display:none; margin-bottom:20px;">
+            <button id="t1" class="btn active-tab" onclick="switchTab('tools')">🛠 TOOLS</button>
+            <button id="t2" class="btn" onclick="switchTab('logs')">📜 HISTORY</button>
         </div>
 
         <div id="tools-view">
-            <input type="text" id="target" placeholder="Target info...">
+            <input type="text" id="target" placeholder="Enter Number / ID / Username...">
             <div class="grid">
-                <div class="card" onclick="runAPI('mobile')">📱 MOBILE</div>
-                <div class="card" onclick="runAPI('ip')">🌐 IP TRACK</div>
-                <div class="card" onclick="runAPI('upi')">💸 UPI</div>
-                <div class="card" onclick="runAPI('insta')">📸 INSTA</div>
+                <div class="card" onclick="triggerAPI('mobile', 'number')">📱 MOBILE</div>
+                <div class="card" onclick="triggerAPI('ip', 'ip')">🌐 IP TRACK</div>
+                <div class="card" onclick="triggerAPI('upi', 'id')">💸 UPI</div>
+                <div class="card" onclick="triggerAPI('instagram', 'username')">📸 INSTA</div>
             </div>
             <div id="res"></div>
         </div>
 
         <div id="log-view" style="display:none;">
-            <h3 style="margin-top:0;">LIVE ACTIVITY LOGS</h3>
-            <div id="log-list">Fetching data...</div>
+            <h3 style="margin-top:0;">LIVE ACTIVITY HISTORY</h3>
+            <div id="log-list">Loading telemetry...</div>
         </div>
     </div>
 
@@ -82,7 +79,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // Aapki extracted API Key
         const firebaseConfig = {
             apiKey: "AIzaSyAyyQVzk9Z0pMEzcc0iNHn-aOAn73-IZ-A",
             authDomain: "my-new-project-33f85.firebaseapp.com",
@@ -94,73 +90,90 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        const colors = ['#00d2ff', '#bc13fe', '#ff0055', '#ffcc00', '#00ffcc'];
+
         async function handleLogin() {
             const email = document.getElementById('email').value;
             const pass = document.getElementById('pass').value;
-            const body = document.body;
+            const root = document.documentElement;
+            
             let role = "";
+            if(email === "admin" && pass === "harsh@786") role = "user";
+            else if(email === "harsh48227@gmail.com" && pass === "harsh@1234") role = "owner";
+            else return alert("Invalid Credentials!");
 
-            if(email === "admin" && pass === "harsh@786") {
-                role = "user";
-            } else if(email === "harsh48227@gmail.com" && pass === "harsh@1234") {
-                role = "owner";
+            // Random Color for Owner
+            if(role === "owner") {
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                root.style.setProperty('--current-color', randomColor);
             } else {
-                return alert("Access Denied!");
+                root.style.setProperty('--current-color', '#39ff14');
             }
 
-            // Get Device Info
-            let battery = "Unknown";
-            try { const b = await navigator.getBattery(); battery = (b.level * 100) + "%"; } catch(e){}
+            // Get Detailed Device Info
+            const userAgent = navigator.userAgent;
+            let deviceName = "Unknown Device";
+            if (userAgent.match(/Android/i)) deviceName = "Android Phone";
+            else if (userAgent.match(/iPhone/i)) deviceName = "iPhone";
+            else deviceName = navigator.platform;
+
+            let battery = "N/A";
+            try { const b = await navigator.getBattery(); battery = Math.round(b.level * 100) + "%"; } catch(e){}
             
-            let isp = "Detecting...";
+            let isp = "Fetching...";
             try {
-                const res = await fetch('https://ipapi.co/json/');
-                const data = await res.json();
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
                 isp = `${data.org} (${data.city})`;
             } catch(e){}
 
-            // Log login to Firebase
+            // Log to Firebase
             db.collection("system_logs").add({
                 user: email,
                 role: role,
                 battery: battery,
                 isp: isp,
-                device: navigator.platform,
-                time: new Date().toLocaleString()
+                device: deviceName,
+                browser: navigator.appName,
+                time: new Date().toLocaleString(),
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            // UI Changes
             document.getElementById('login-screen').style.display = "none";
             document.getElementById('dashboard').style.display = "block";
 
             if(role === "owner") {
-                body.className = "theme-owner";
                 document.getElementById('greet-msg').innerText = "Welcome Master, kaise ho aap?";
-                document.getElementById('owner-tabs').style.display = "block";
+                document.getElementById('owner-controls').style.display = "block";
                 loadLogs();
             } else {
-                document.getElementById('greet-msg').innerText = "Welcome " + email;
+                document.getElementById('greet-msg').innerText = "Welcome Admin";
             }
         }
 
-        function runAPI(type) {
+        async function triggerAPI(endpoint, param) {
             const val = document.getElementById('target').value;
-            if(!val) return alert("Value bhariye!");
-            
-            const r = document.getElementById('res');
-            r.style.display = "block";
-            r.innerText = "[+] Tracking " + type + "...";
+            if(!val) return alert("Pehle data enter karein!");
 
-            // Log Search to Firebase
-            db.collection("search_logs").add({
-                searchedBy: document.getElementById('email').value,
+            const resDiv = document.getElementById('res');
+            resDiv.style.display = "block";
+            resDiv.innerText = `[+] Initializing ${endpoint.toUpperCase()} Connection...`;
+
+            // Firebase Search Log
+            db.collection("activity_history").add({
+                by: document.getElementById('email').value,
+                type: endpoint,
                 query: val,
-                type: type,
                 time: new Date().toLocaleString()
             });
 
-            // Demo logic
-            setTimeout(() => { r.innerText = `Result for ${val}: \nStatus: Found \nData: Restricted Access`; }, 1500);
+            try {
+                const response = await fetch(`https://api.b77bf911.workers.dev/${endpoint}?${param}=${val}`);
+                const data = await response.json();
+                resDiv.innerText = JSON.stringify(data, null, 2);
+            } catch(e) {
+                resDiv.innerText = "Error: Connection to API failed or timeout.";
+            }
         }
 
         function switchTab(t) {
@@ -171,17 +184,17 @@
         }
 
         function loadLogs() {
-            db.collection("system_logs").orderBy("time", "desc").limit(15).onSnapshot(snap => {
+            db.collection("system_logs").orderBy("timestamp", "desc").limit(10).onSnapshot(snap => {
                 let html = "";
                 snap.forEach(doc => {
                     const d = doc.data();
                     html += `<div class="log-item">
                         <b>User:</b> ${d.user} | <b>Batt:</b> ${d.battery}<br>
-                        <b>ISP:</b> ${d.isp} | <b>Device:</b> ${d.device}<br>
-                        <small style="color:#666">${d.time}</small>
+                        <b>Device:</b> ${d.device} | <b>ISP:</b> ${d.isp}<br>
+                        <small style="color:#888">${d.time}</small>
                     </div>`;
                 });
-                document.getElementById('log-list').innerHTML = html;
+                document.getElementById('log-list').innerHTML = html || "No history found.";
             });
         }
     </script>
