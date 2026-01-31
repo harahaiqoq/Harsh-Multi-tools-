@@ -3,70 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MASTER | AUTO-RESET SYSTEM</title>
+    <title>TERMINAL | PRO SYSTEM</title>
     <style>
-        :root { --user-color: #39ff14; --bg: #050505; }
-        body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; text-align: center; margin: 0; transition: 0.8s; }
+        :root { --neon: #39ff14; --bg: #050505; }
+        body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; text-align: center; margin: 0; transition: 0.5s; }
         
-        .neon-box { 
-            border: 2px solid var(--current-color, var(--user-color)); 
-            box-shadow: 0 0 20px var(--current-color, var(--user-color)); 
-            padding: 25px; margin: 20px auto; width: 85%; max-width: 450px; border-radius: 15px; 
-            background: rgba(0,0,0,0.9);
+        .system-container { 
+            border: 2px solid var(--neon); 
+            box-shadow: 0 0 25px var(--neon); 
+            padding: 30px; margin: 50px auto; width: 85%; max-width: 480px; border-radius: 20px; 
+            background: rgba(0,0,0,0.95);
         }
+
+        /* PRO OWNER STYLE */
+        .pro-owner { --neon: #00d2ff !important; border-style: double !important; border-width: 4px !important; }
+        .owner-text { color: #00d2ff; text-shadow: 0 0 15px #00d2ff; font-size: 24px; font-weight: bold; }
 
         input { 
-            width: 85%; padding: 12px; margin: 10px 0; background: #000; 
-            border: 1px solid var(--current-color, var(--user-color)); color: #fff; border-radius: 5px; outline: none;
+            width: 85%; padding: 15px; margin: 15px 0; background: #000; 
+            border: 1px solid var(--neon); color: #fff; border-radius: 8px; outline: none; font-size: 16px;
         }
 
-        .btn { 
-            background: transparent; border: 1px solid var(--current-color, var(--user-color)); color: var(--current-color, var(--user-color));
-            padding: 10px 20px; cursor: pointer; margin: 5px; border-radius: 5px; font-weight: bold;
+        .action-btn { 
+            background: transparent; border: 2px solid var(--neon); color: var(--neon);
+            padding: 12px 25px; cursor: pointer; border-radius: 8px; font-weight: bold; font-size: 14px;
+            text-transform: uppercase; letter-spacing: 2px;
         }
-        .btn:hover, .active-tab { background: var(--current-color, var(--user-color)) !important; color: #000 !important; }
+        .action-btn:hover { background: var(--neon); color: #000; box-shadow: 0 0 20px var(--neon); }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .card { border: 1px solid #333; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; font-size: 11px; cursor: pointer; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+        .card { border: 1px solid #333; padding: 15px; background: #111; border-radius: 12px; font-size: 12px; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
+        .card:hover { border-color: var(--neon); transform: translateY(-3px); }
+        .card::before { content: 'PRO'; position: absolute; top: 0; right: 0; background: var(--neon); color: #000; font-size: 8px; padding: 2px 5px; }
 
-        #res { background: #000; border: 1px dashed var(--current-color); padding: 15px; margin-top: 15px; text-align: left; display: none; font-size: 11px; color: #0f0; white-space: pre-wrap; }
+        /* PRO RESULT INTERFACE */
+        #res { 
+            background: #000; border-left: 5px solid var(--neon); padding: 20px; 
+            margin-top: 20px; text-align: left; display: none; font-size: 13px; 
+            color: #0f0; line-height: 1.6; border-radius: 0 10px 10px 0;
+            box-shadow: inset 0 0 10px #111;
+        }
         
-        .log-item { border-bottom: 1px solid #222; padding: 12px; text-align: left; font-size: 11px; }
-        .search-tag { color: #ffcc00; font-weight: bold; }
-        .login-tag { color: #00ffcc; font-weight: bold; }
+        .log-box { text-align: left; font-size: 11px; margin-top: 20px; max-height: 300px; overflow-y: auto; padding: 10px; border: 1px solid #222; }
+        .log-entry { border-bottom: 1px solid #222; padding: 10px 0; }
+        .status-online { color: #39ff14; font-size: 10px; }
     </style>
 </head>
 <body>
 
-    <div id="login-screen" class="neon-box">
-        <h2>SYSTEM LOGIN</h2>
-        <input type="text" id="email" placeholder="Email / ID">
-        <input type="password" id="pass" placeholder="Password">
-        <br><button class="btn" onclick="handleLogin()">ACCESS SYSTEM</button>
+    <div id="login-screen" class="system-container">
+        <h2 id="login-head">SECURE ACCESS</h2>
+        <input type="text" id="email" placeholder="IDENTITY / EMAIL">
+        <input type="password" id="pass" placeholder="ACCESS KEY">
+        <br><br>
+        <button class="action-btn" onclick="handleLogin()">Authorize</button>
     </div>
 
-    <div id="dashboard" class="neon-box" style="display:none;">
-        <h2 id="greet-msg">Welcome</h2>
+    <div id="dashboard" class="system-container" style="display:none;">
+        <h2 id="greet-msg" class="">WELCOME AGENT</h2>
+        <p class="status-online">● SYSTEM ONLINE | ENCRYPTION: AES-256</p>
         
-        <div id="owner-controls" style="display:none; margin-bottom:20px;">
-            <button id="t1" class="btn active-tab" onclick="switchTab('tools')">🛠 TOOLS</button>
-            <button id="t2" class="btn" onclick="switchTab('logs')">📜 HISTORY</button>
+        <div id="owner-tabs" style="display:none; margin-bottom:20px;">
+            <button class="action-btn" style="font-size: 10px;" onclick="switchTab('tools')">Tools</button>
+            <button class="action-btn" style="font-size: 10px;" onclick="switchTab('history')">History</button>
         </div>
 
         <div id="tools-view">
-            <input type="text" id="target" placeholder="Enter target data...">
+            <input type="text" id="target" placeholder="Enter query here...">
             <div class="grid">
-                <div class="card" onclick="triggerAPI('mobile', 'number')">📱 MOBILE</div>
-                <div class="card" onclick="triggerAPI('ip', 'ip')">🌐 IP TRACK</div>
-                <div class="card" onclick="triggerAPI('upi', 'id')">💸 UPI</div>
-                <div class="card" onclick="triggerAPI('instagram', 'username')">📸 INSTA</div>
+                <div class="card" onclick="processAPI('mobile', 'Mobile Number')">📱 MOBILE</div>
+                <div class="card" onclick="processAPI('ip', 'IP Address')">🌐 IP TRACK</div>
+                <div class="card" onclick="processAPI('upi', 'UPI ID')">💸 UPI</div>
+                <div class="card" onclick="processAPI('instagram', 'Username')">📸 INSTA</div>
             </div>
             <div id="res"></div>
         </div>
 
-        <div id="log-view" style="display:none;">
-            <h3 style="margin:0;">GLOBAL HISTORY LOGS</h3>
-            <div id="log-list">Syncing with Cloud...</div>
+        <div id="history-view" style="display:none;">
+            <h3 style="color:var(--neon)">GLOBAL TELEMETRY</h3>
+            <div id="log-list" class="log-box"></div>
         </div>
     </div>
 
@@ -85,85 +100,106 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        const colors = ['#00d2ff', '#bc13fe', '#ff0055', '#ffcc00', '#00ffcc'];
-        
-        // Refresh logic: Clear local memory on load
-        window.onload = function() {
-            sessionStorage.removeItem('activeUser');
-            document.getElementById('login-screen').style.display = "block";
-            document.getElementById('dashboard').style.display = "none";
-        };
+        let activeUser = "";
+
+        // Auto-Reset on Refresh
+        window.onload = () => { sessionStorage.clear(); };
 
         async function handleLogin() {
             const email = document.getElementById('email').value;
             const pass = document.getElementById('pass').value;
+            const container = document.querySelector('.system-container');
+            const greet = document.getElementById('greet-msg');
             
-            let role = "";
-            if(email === "admin" && pass === "harsh@786") role = "user";
-            else if(email === "harsh48227@gmail.com" && pass === "harsh@1234") role = "owner";
-            else return alert("Invalid!");
-
-            // Session Storage use kar rahe hain (Refresh par khatam ho jayega)
-            sessionStorage.setItem('activeUser', email);
-
-            if(role === "owner") {
-                document.documentElement.style.setProperty('--current-color', colors[Math.floor(Math.random()*colors.length)]);
+            if(email === "harsh48227@gmail.com" && pass === "harsh@1234") {
+                activeUser = "MASTER OWNER";
+                container.classList.add('pro-owner');
+                greet.innerText = "Welcome Master, kaise ho aap?";
+                greet.classList.add('owner-text');
+                document.getElementById('owner-tabs').style.display = "block";
+            } else if(email === "admin" && pass === "harsh@786") {
+                activeUser = "Agent Admin";
+                greet.innerText = "WELCOME AGENT ADMIN";
             } else {
-                document.documentElement.style.setProperty('--current-color', '#39ff14');
+                return alert("ACCESS DENIED: INVALID KEY");
             }
 
-            // Device Info
-            let device = navigator.userAgent.includes("Android") ? "Android" : "PC/Other";
-            let battery = "N/A";
-            try { const b = await navigator.getBattery(); battery = Math.round(b.level * 100) + "%"; } catch(e){}
-
-            // Log Login
-            db.collection("all_activity").add({
-                type: "LOGIN",
-                user: email,
-                details: `Logged in from ${device} (Batt: ${battery})`,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                timeStr: new Date().toLocaleString()
-            });
-
+            sessionStorage.setItem('session', activeUser);
             document.getElementById('login-screen').style.display = "none";
             document.getElementById('dashboard').style.display = "block";
 
-            if(role === "owner") {
-                document.getElementById('greet-msg').innerText = "Welcome Master, kaise ho aap?";
-                document.getElementById('owner-controls').style.display = "block";
-                loadLogs();
-            } else {
-                document.getElementById('greet-msg').innerText = "Welcome " + email;
-            }
+            // Device Telemetry
+            let battery = "N/A";
+            try { const b = await navigator.getBattery(); battery = Math.round(b.level * 100) + "%"; } catch(e){}
+            
+            db.collection("all_activity").add({
+                type: "LOGIN",
+                user: activeUser,
+                details: `Auth successful | Battery: ${battery} | Device: ${navigator.platform}`,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                time: new Date().toLocaleString()
+            });
+
+            if(activeUser === "MASTER OWNER") loadHistory();
         }
 
-        async function triggerAPI(endpoint, param) {
+        async function processAPI(type, label) {
             const val = document.getElementById('target').value;
-            const user = sessionStorage.getItem('activeUser') || "Unknown";
-            if(!val) return alert("Value bhariye!");
+            
+            // Validation Logic
+            if(!val) {
+                return alert(`FAILED: Please enter ${label}`);
+            }
 
             const resDiv = document.getElementById('res');
             resDiv.style.display = "block";
-            resDiv.innerText = "[+] Fetching... (Logged to Master)";
+            resDiv.innerHTML = `<span style="color:white">[SYSTEM]</span> Connecting to Global Database...<br>[PAYLOAD] Sending request for ${val}...`;
 
             try {
-                const response = await fetch(`https://api.b77bf911.workers.dev/${endpoint}?${param}=${val}`);
+                // Mapping params
+                let param = type === 'mobile' ? 'number' : (type === 'ip' ? 'ip' : (type === 'instagram' ? 'username' : 'id'));
+                
+                const response = await fetch(`https://api.b77bf911.workers.dev/${type}?${param}=${val}`);
                 const data = await response.json();
-                resDiv.innerText = JSON.stringify(data, null, 2);
+                
+                // Pro Display
+                resDiv.innerHTML = `<b>--- DECRYPTED DATA ---</b><br>` + JSON.stringify(data, null, 2);
 
-                // REAL-TIME LOGGING TO OWNER
+                // Global Log for Owner
                 db.collection("all_activity").add({
                     type: "SEARCH",
-                    user: user,
-                    details: `Searched ${endpoint.toUpperCase()}: ${val}`,
+                    user: activeUser,
+                    details: `Search [${type.toUpperCase()}] -> ${val}`,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    timeStr: new Date().toLocaleString()
+                    time: new Date().toLocaleString()
                 });
 
-            } catch(e) { resDiv.innerText = "API Error!"; }
+            } catch(e) {
+                resDiv.innerHTML = `<span style="color:red">ERROR: API Connection Timed Out.</span>`;
+            }
         }
 
         function switchTab(t) {
-            document.getElementById
-        
+            document.getElementById('tools-view').style.display = (t === 'tools' ? 'block' : 'none');
+            document.getElementById('history-view').style.display = (t === 'history' ? 'block' : 'none');
+        }
+
+        function loadHistory() {
+            db.collection("all_activity").orderBy("timestamp", "desc").limit(25).onSnapshot(snap => {
+                let h = "";
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    const color = d.type === "LOGIN" ? "#00d2ff" : "#ffcc00";
+                    h += `<div class="log-entry">
+                        <b style="color:${color}">[${d.type}]</b> ${d.user}<br>
+                        <span>${d.details}</span><br>
+                        <small style="color:#555">${d.time}</small>
+                    </div>`;
+                });
+                document.getElementById('log-list').innerHTML = h;
+            });
+        }
+    </script>
+</body>
+                    </html>
+                    
