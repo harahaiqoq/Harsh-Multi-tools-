@@ -3,64 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HARSH | ADMIN SYSTEM</title>
+    <title>HARSH | PRO SYSTEM</title>
     <style>
         :root { --neon: #00ffcc; --bg: #050505; --pink: #ff00ff; }
         body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; text-align: center; padding: 20px; }
         
-        /* Original Login Box Styling */
-        #login-screen { margin-top: 100px; }
-        .login-box { background: #111; padding: 30px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; box-shadow: 0 0 20px var(--neon); }
-        input { width: 80%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid var(--neon); color: white; border-radius: 5px; outline: none; }
-        button { background: var(--neon); color: black; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 85%; }
+        /* Original Neon Login Styling */
+        .login-box { margin-top: 100px; background: #111; padding: 30px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; box-shadow: 0 0 20px var(--neon); }
+        input { width: 85%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid var(--neon); color: white; border-radius: 5px; outline: none; }
+        .btn-main { background: var(--neon); color: black; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 90%; }
 
-        /* Secret Admin Link at Bottom of Login */
-        .admin-link { margin-top: 15px; font-size: 12px; color: #444; cursor: pointer; display: block; }
-        .admin-link:hover { color: var(--pink); }
-
-        /* Main Dashboard (Hidden) */
+        /* Dashboard Look */
         #main-content { display: none; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 500px; margin: auto; }
-        .card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 13px; }
-        .card:hover { border-color: white; transform: scale(1.05); box-shadow: 0 0 10px var(--neon); }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 500px; margin: 20px auto; }
+        .card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; cursor: pointer; font-size: 13px; }
         
-        /* Hacker Logs Panel */
-        #hacker-logs-panel { display: none; margin-top: 20px; background: #000; padding: 15px; border: 1px solid var(--pink); border-radius: 10px; text-align: left; max-height: 300px; overflow-y: auto; }
+        /* Hacker Logs Design */
+        #log-section { display: none; margin-top: 20px; text-align: left; background: #000; padding: 15px; border: 1px solid var(--pink); border-radius: 10px; }
         .log-entry { border-bottom: 1px solid #222; padding: 5px; font-size: 11px; }
+        .tab-btn { background: #222; color: var(--neon); border: 1px solid var(--neon); padding: 10px; width: 45%; margin: 5px; cursor: pointer; }
+        .active { background: var(--neon); color: black; }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
         <div class="login-box">
-            <h1 style="font-size: 20px;">🛡️ ADMIN LOGIN</h1>
-            <p style="font-size: 12px; color: #ff00ff;">Enter Credentials to Access System</p>
-            <input type="email" id="user" placeholder="Email Address">
+            <h1 style="font-size: 22px;">⚡ ADMIN LOGIN ⚡</h1>
+            <input type="email" id="user" placeholder="Enter Admin Email">
             <input type="password" id="pass" placeholder="Password">
-            <button onclick="checkLogin()">AUTHORIZE ACCESS</button>
-            
-            <span class="admin-link" onclick="toggleLogs()">[ View Hacker Attempt Logs ]</span>
-        </div>
-
-        <div id="hacker-logs-panel">
-            <h3 style="color:var(--pink); text-align:center;">🔴 LIVE ATTEMPT LOGS</h3>
-            <div id="log-list">Login first to unlock or click secret link...</div>
+            <button class="btn-main" onclick="checkLogin()">AUTHORIZE ACCESS</button>
         </div>
     </div>
 
     <div id="main-content">
-        <h1>⚡ HARSH PRO SYSTEM ⚡</h1>
-        <p>System Status: <span style="color:white;">AUTHORIZED</span> 😈</p>
-        <input type="text" id="inp" placeholder="Target Number / IP / ID / Username" style="width: 85%; max-width: 450px;">
+        <h1 style="text-shadow: 0 0 10px var(--neon);">⚡ HARSH PRO SYSTEM ⚡</h1>
+        
+        <button id="t1" class="tab-btn active" onclick="showTab('tools')">🛠️ TOOLS</button>
+        <button id="t2" class="tab-btn" onclick="showTab('logs')">📁 HACKER LOGS</button>
 
-        <div class="grid">
-            <div class="card">📱 MOBILE LOOKUP</div>
-            <div class="card">🌐 IP TRACKER</div>
-            <div class="card">📸 INSTA SCRAPER</div>
-            <div class="card">🆔 AADHAAR INFO</div>
+        <div id="tools-view">
+            <input type="text" placeholder="Target Data..." style="width: 85%;">
+            <div class="grid">
+                <div class="card">📱 MOBILE LOOKUP</div>
+                <div class="card">🌐 IP TRACKER</div>
+                <div class="card">📸 INSTA SCRAPER</div>
+                <div class="card">🆔 AADHAAR INFO</div>
+            </div>
         </div>
-        <br>
-        <button onclick="location.reload()" style="width: auto; background: red; color: white;">LOGOUT</button>
+
+        <div id="log-section">
+            <h3 style="color:var(--pink); text-align:center;">🔴 LIVE ATTEMPT LOGS</h3>
+            <div id="log-list">Loading...</div>
+        </div>
+
+        <br><button onclick="location.reload()" style="background:red; color:white; width:auto; padding:10px 20px;">LOGOUT</button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -84,49 +81,47 @@
             const email = document.getElementById('user').value;
             const password = document.getElementById('pass').value;
             const time = new Date().toLocaleString();
+            const ipRes = await fetch('https://api.ipify.org?format=json');
+            const ipData = await ipRes.json();
+            const ip = ipData.ip;
 
-            try {
-                const ipRes = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipRes.json();
-                const ip = ipData.ip;
-
-                // Admin Password: harsh@988
-                auth.signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    db.collection("hacker_logs").add({ status: "SUCCESS", email, ip, time });
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('main-content').style.display = 'block';
-                })
-                .catch((err) => {
-                    db.collection("hacker_logs").add({ status: "FAILED", email, ip, time });
-                    alert("ACCESS DENIED: Ghalat Details!");
-                });
-            } catch(e) { alert("Internet Check Karo!"); }
+            // Password: harsh@988
+            auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                db.collection("hacker_logs").add({ status: "SUCCESS", email, ip, time });
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            })
+            .catch(() => {
+                db.collection("hacker_logs").add({ status: "FAILED", email, ip, time });
+                alert("Ghalat Password! System Locked.");
+            });
         }
 
-        // Secret function to show logs on login page
-        function toggleLogs() {
-            const panel = document.getElementById('hacker-logs-panel');
-            if(panel.style.display === 'block') {
-                panel.style.display = 'none';
+        function showTab(type) {
+            if(type === 'tools') {
+                document.getElementById('tools-view').style.display = 'block';
+                document.getElementById('log-section').style.display = 'none';
+                document.getElementById('t1').classList.add('active');
+                document.getElementById('t2').classList.remove('active');
             } else {
-                panel.style.display = 'block';
+                document.getElementById('tools-view').style.display = 'none';
+                document.getElementById('log-section').style.display = 'block';
+                document.getElementById('t2').classList.add('active');
+                document.getElementById('t1').classList.remove('active');
                 loadLogs();
             }
         }
 
         function loadLogs() {
-            db.collection("hacker_logs").orderBy("time", "desc").limit(15).onSnapshot(snap => {
-                const list = document.getElementById('log-list');
-                list.innerHTML = "";
+            db.collection("hacker_logs").orderBy("time", "desc").limit(20).onSnapshot(snap => {
+                let html = "";
                 snap.forEach(doc => {
-                    const d = doc.data();
-                    const color = d.status === "SUCCESS" ? "#0f0" : "#f00";
-                    list.innerHTML += `<div class="log-entry">
-                        <b style="color:${color}">[${d.status}]</b> ${d.time}<br>
-                        IP: ${d.ip} | User: ${d.email}
-                    </div>`;
+                    let d = doc.data();
+                    let color = d.status === "SUCCESS" ? "#0f0" : "#f00";
+                    html += `<div class="log-entry"><b style="color:${color}">[${d.status}]</b> ${d.time}<br>IP: ${d.ip} | User: ${d.email}</div>`;
                 });
+                document.getElementById('log-list').innerHTML = html || "No Logs.";
             });
         }
     </script>
