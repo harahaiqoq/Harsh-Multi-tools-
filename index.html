@@ -3,60 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HARSH | PRO ADMIN</title>
+    <title>My Website | Secure</title>
     <style>
-        :root { --neon: #00ffcc; --bg: #050505; --pink: #ff00ff; }
-        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; text-align: center; padding: 20px; }
-        #login-screen { margin-top: 100px; }
-        .login-box { background: #111; padding: 30px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; box-shadow: 0 0 20px var(--neon); }
-        input { width: 80%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid var(--neon); color: white; border-radius: 5px; outline: none; }
-        button { background: var(--neon); color: black; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 85%; margin: 5px; }
-        #main-content { display: none; }
-        .tab-btn { width: 40%; background: #222; color: var(--neon); border: 1px solid var(--neon); }
-        .active-tab { background: var(--neon); color: black; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 500px; margin: 20px auto; }
-        .card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 13px; }
-        .card:hover { border-color: white; transform: scale(1.05); box-shadow: 0 0 10px var(--neon); }
-        #log-panel { display: none; max-width: 600px; margin: 20px auto; text-align: left; background: #111; padding: 10px; border-radius: 10px; border: 1px solid var(--pink); font-size: 11px; max-height: 400px; overflow-y: auto; }
-        .log-entry { border-bottom: 1px solid #222; padding: 5px; margin-bottom: 5px; }
-        .status-success { color: #00ff00; }
-        .status-failed { color: #ff0000; }
+        :root { --neon: #00ffcc; --bg: #050505; }
+        body { background: #111; color: white; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 100px; }
+        
+        /* Aapka Main Content Yahan Hoga */
+        .content { padding: 50px; }
+
+        /* Secret Admin Button at Bottom */
+        .admin-footer { position: fixed; bottom: 0; width: 100%; padding: 10px; background: rgba(0,0,0,0.8); }
+        .admin-btn { background: transparent; color: #444; border: 1px solid #444; padding: 5px 15px; cursor: pointer; border-radius: 5px; font-size: 12px; }
+        .admin-btn:hover { color: var(--neon); border-color: var(--neon); }
+
+        /* Login & Log Window */
+        #admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                        background: var(--bg); border: 2px solid var(--neon); padding: 20px; border-radius: 15px; 
+                        width: 90%; max-width: 400px; z-index: 1000; box-shadow: 0 0 30px rgba(0,255,204,0.3); }
+        
+        input { width: 90%; padding: 10px; margin: 10px 0; background: #000; border: 1px solid var(--neon); color: white; }
+        .btn-main { background: var(--neon); color: black; padding: 10px; border: none; width: 95%; font-weight: bold; cursor: pointer; }
+        
+        #log-display { display: none; text-align: left; max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 11px; }
+        .log-item { border-bottom: 1px solid #333; padding: 5px; margin-top: 5px; }
+        .close-btn { color: red; cursor: pointer; float: right; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="login-screen">
-        <div class="login-box">
-            <h1>🛡️ ADMIN LOGIN</h1>
-            <input type="email" id="user" placeholder="Admin Email">
-            <input type="password" id="pass" placeholder="Password">
-            <button onclick="checkLogin()">AUTHORIZE ACCESS</button>
-        </div>
+    <div class="content">
+        <h1>Welcome to My Website</h1>
+        <p>Aapka normal content yahan dikhega...</p>
     </div>
 
-    <div id="main-content">
-        <h1>⚡ HARSH PRO SYSTEM ⚡</h1>
-        
-        <button id="btn-tools" class="tab-btn active-tab" onclick="showTab('tools')">🛠️ TOOLS</button>
-        <button id="btn-logs" class="tab-btn" onclick="showTab('logs')">📁 HACKER LOGS</button>
+    <div class="admin-footer">
+        <button class="admin-btn" onclick="openAdmin()">🔒 Admin Panel</button>
+    </div>
 
-        <div id="tools-section">
-            <input type="text" id="inp" placeholder="Target Data..." style="width: 85%; max-width: 450px; margin-top:20px;">
-            <div class="grid">
-                <div class="card" onclick="runIP()">🌐 IP TRACKER</div>
-                <div class="card" onclick="run('mobile', 'number')">📱 MOBILE LOOKUP</div>
-                <div class="card" onclick="run('instagram', 'username')">📸 INSTA SCRAPER</div>
-                <div class="card" onclick="run('vehicle', 'registration')">🚗 VEHICLE INFO</div>
-            </div>
-            <div id="res" style="display:none; background:#000; padding:15px; border:1px dashed white; text-align:left;"></div>
+    <div id="admin-panel">
+        <span class="close-btn" onclick="closeAdmin()">X</span>
+        <div id="login-form">
+            <h2 style="color:var(--neon)">Admin Login</h2>
+            <input type="email" id="adm-user" placeholder="Email">
+            <input type="password" id="adm-pass" placeholder="Password">
+            <button class="btn-main" onclick="handleLogin()">Login & View Logs</button>
         </div>
 
-        <div id="log-panel">
-            <h3 style="color:var(--pink); text-align:center;">🔴 LIVE ATTEMPT LOGS</h3>
-            <div id="log-list">Loading logs...</div>
+        <div id="log-display">
+            <h3 style="color:var(--neon)">🔴 Live Hacker Logs</h3>
+            <div id="log-list">Loading...</div>
         </div>
-
-        <br><button onclick="location.reload()" style="background:red; color:white; width:auto;">LOGOUT</button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -77,66 +73,38 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        async function checkLogin() {
-            const email = document.getElementById('user').value;
-            const password = document.getElementById('pass').value;
-            const time = new Date().toLocaleString();
-            
-            try {
-                const ipRes = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipRes.json();
-                const ip = ipData.ip;
+        function openAdmin() { document.getElementById('admin-panel').style.display = 'block'; }
+        function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
 
-                // Password Check: harsh@988
-                auth.signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    db.collection("hacker_logs").add({ status: "SUCCESS", email, ip, time });
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('main-content').style.display = 'block';
-                    loadLogs(); // Load logs on login
-                })
-                .catch((err) => {
-                    db.collection("hacker_logs").add({ status: "FAILED", email, ip, time });
-                    alert("ACCESS DENIED! Log saved.");
-                });
-            } catch(e) { alert("Check Internet!"); }
+        async function handleLogin() {
+            const email = document.getElementById('adm-user').value;
+            const pass = document.getElementById('adm-pass').value;
+
+            // Password Check: harsh@988
+            auth.signInWithEmailAndPassword(email, pass)
+            .then(() => {
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('log-display').style.display = 'block';
+                fetchLogs();
+            })
+            .catch(err => alert("Ghalat Access! Log saved."));
         }
 
-        function showTab(type) {
-            if(type === 'tools') {
-                document.getElementById('tools-section').style.display = 'block';
-                document.getElementById('log-panel').style.display = 'none';
-                document.getElementById('btn-tools').classList.add('active-tab');
-                document.getElementById('btn-logs').classList.remove('active-tab');
-            } else {
-                document.getElementById('tools-section').style.display = 'none';
-                document.getElementById('log-panel').style.display = 'block';
-                document.getElementById('btn-logs').classList.add('active-tab');
-                document.getElementById('btn-tools').classList.remove('active-tab');
-                loadLogs();
-            }
-        }
-
-        function loadLogs() {
-            db.collection("hacker_logs").orderBy("time", "desc").limit(20).onSnapshot((querySnapshot) => {
-                const logList = document.getElementById('log-list');
-                logList.innerHTML = "";
-                querySnapshot.forEach((doc) => {
-                    const log = doc.data();
-                    const statusClass = log.status === "SUCCESS" ? "status-success" : "status-failed";
-                    logList.innerHTML += `
-                        <div class="log-entry">
-                            <b>Time:</b> ${log.time}<br>
-                            <b>IP:</b> ${log.ip} | <b>Email:</b> ${log.email}<br>
-                            <b>Status:</b> <span class="${statusClass}">${log.status}</span>
-                        </div>`;
+        function fetchLogs() {
+            // Firestore se logs lana
+            db.collection("hacker_logs").orderBy("time", "desc").onSnapshot(snap => {
+                let html = "";
+                snap.forEach(doc => {
+                    let d = doc.data();
+                    let color = d.status === "SUCCESS" ? "#0f0" : "#f00";
+                    html += `<div class="log-item">
+                                <span style="color:${color}">[${d.status}]</span> ${d.time}<br>
+                                <b>IP:</b> ${d.ip} | <b>Email:</b> ${d.email}
+                             </div>`;
                 });
+                document.getElementById('log-list').innerHTML = html || "No Logs.";
             });
         }
-
-        // Rest of your API functions (run, runIP) here...
-        async function runIP() { /* same as before */ }
-        async function run(ep, key) { /* same as before */ }
     </script>
 </body>
 </html>
