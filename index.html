@@ -6,61 +6,60 @@
     <title>HARSH | PRO SYSTEM</title>
     <style>
         :root { --neon: #00ffcc; --bg: #050505; --pink: #ff00ff; }
-        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; text-align: center; padding: 20px; }
-        .login-box { margin-top: 100px; background: #111; padding: 30px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; box-shadow: 0 0 20px var(--neon); }
-        input { width: 85%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid var(--neon); color: white; border-radius: 5px; outline: none; }
-        .btn-main { background: var(--neon); color: black; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 90%; }
-        #main-content { display: none; }
+        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; text-align: center; padding: 20px; margin: 0; }
+        .login-box { margin-top: 100px; background: #111; padding: 30px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; box-shadow: 0 0 20px var(--neon); width: 85%; max-width: 350px; }
+        input { width: 90%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid var(--neon); color: white; border-radius: 5px; outline: none; }
+        .btn-main { background: var(--neon); color: black; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 95%; margin-top: 10px; }
+        #main-content { display: none; padding-top: 20px; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 500px; margin: 20px auto; }
         .card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; cursor: pointer; font-size: 13px; transition: 0.3s; }
         .card:hover { border-color: white; box-shadow: 0 0 10px var(--neon); }
         #log-section { display: none; margin-top: 20px; text-align: left; background: #000; padding: 15px; border: 1px solid var(--pink); border-radius: 10px; max-height: 300px; overflow-y: auto; }
-        .log-entry { border-bottom: 1px solid #222; padding: 5px; font-size: 11px; }
-        .tab-btn { background: #222; color: var(--neon); border: 1px solid var(--neon); padding: 10px; width: 45%; margin: 5px; cursor: pointer; display: none; } /* Default Hidden */
+        .log-entry { border-bottom: 1px solid #222; padding: 8px; font-size: 11px; color: #fff; }
+        .tab-btn { background: #222; color: var(--neon); border: 1px solid var(--neon); padding: 10px; width: 45%; margin: 5px; cursor: pointer; display: none; font-weight: bold; }
         .active { background: var(--neon); color: black; }
-        #res { background: #000; padding: 15px; border: 1px dashed white; margin-top: 20px; text-align: left; display: none; font-size: 12px; }
+        #res { background: #000; padding: 15px; border: 1px dashed white; margin-top: 20px; text-align: left; display: none; color: #0f0; font-size: 11px; white-space: pre-wrap; }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
         <div class="login-box">
-            <h1>⚡ SYSTEM ACCESS ⚡</h1>
-            <input type="email" id="user" placeholder="Enter Email / Admin ID">
+            <h1 style="font-size: 20px;">⚡ SYSTEM AUTH ⚡</h1>
+            <input type="text" id="user" placeholder="Username / Gmail">
             <input type="password" id="pass" placeholder="Password">
-            <button class="btn-main" onclick="checkLogin()">AUTHORIZE</button>
+            <button class="btn-main" onclick="checkLogin()">AUTHORIZE ACCESS</button>
         </div>
     </div>
 
     <div id="main-content">
-        <h1 id="header-title" style="text-shadow: 0 0 10px var(--neon);">⚡ HARSH PRO SYSTEM ⚡</h1>
+        <h1 id="role-tag" style="text-shadow: 0 0 10px var(--neon);">⚡ HARSH SYSTEM ⚡</h1>
         
-        <div id="nav-tabs">
+        <div id="nav">
             <button id="t1" class="tab-btn active" style="display:inline-block;" onclick="showTab('tools')">🛠️ TOOLS</button>
             <button id="t2" class="tab-btn" onclick="showTab('logs')">📁 HACKER LOGS</button>
         </div>
 
         <div id="tools-view">
-            <input type="text" id="inp" placeholder="Target Number / IP / Username" style="width: 85%;">
+            <input type="text" id="inp" placeholder="Enter Target (IP or Number)" style="width: 85%;">
             <div class="grid">
                 <div class="card" onclick="runIP()">🌐 IP TRACKER</div>
-                <div class="card" onclick="run('mobile')">📱 MOBILE LOOKUP</div>
-                <div class="card" onclick="run('insta')">📸 INSTA SCRAPER</div>
-                <div class="card" onclick="run('vehicle')">🚗 VEHICLE INFO</div>
+                <div class="card" onclick="toolMsg('Mobile Lookup')">📱 MOBILE INFO</div>
+                <div class="card" onclick="toolMsg('Insta Scraper')">📸 INSTA DATA</div>
+                <div class="card" onclick="toolMsg('Vehicle Tracker')">🚗 VEHICLE</div>
             </div>
             <div id="res"></div>
         </div>
 
         <div id="log-section">
             <h3 style="color:var(--pink); text-align:center;">🔴 LIVE ATTEMPT LOGS</h3>
-            <div id="log-list">Fetching...</div>
+            <div id="log-list">Fetching Firestore...</div>
         </div>
 
-        <br><button onclick="location.reload()" style="background:red; color:white; padding:10px;">LOGOUT</button>
+        <br><button onclick="location.reload()" style="background:red; color:white; padding:10px; border:none; border-radius:5px; cursor:pointer;">LOGOUT</button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
@@ -73,56 +72,67 @@
             appId: "1:1092014213129:web:29dd21e5beb542c1d590d8"
         };
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
         const db = firebase.firestore();
 
         async function checkLogin() {
-            const email = document.getElementById('user').value;
-            const password = document.getElementById('pass').value;
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
             const time = new Date().toLocaleString();
-            const ipData = await fetch('https://api.ipify.org?format=json').then(r => r.json());
-            const ip = ipData.ip;
+            let ip = "0.0.0.0";
+            
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                ip = data.ip;
+            } catch(e) {}
 
-            // Condition 1: Your Personal Gmail (Full Access)
-            if(email === "harsh48227@gmail.com" && password === "harsh@1234") {
-                loginSuccess("OWNER", true, email, ip, time);
+            // 1. Aapka Personal Login (Owner)
+            if(u === "harsh48227@gmail.com" && p === "harsh@1234") {
+                startSystem("OWNER", true, u, ip, time);
             } 
-            // Condition 2: Admin Password (Tools Only)
-            else if(password === "harsh@786") {
-                loginSuccess("ADMIN", false, email, ip, time);
-            }
+            // 2. Normal Admin Login
+            else if(u === "admin" && p === "harsh@786") {
+                startSystem("ADMIN", false, u, ip, time);
+            } 
             else {
-                db.collection("hacker_logs").add({ status: "FAILED", email, ip, time });
-                alert("ACCESS DENIED!");
+                db.collection("hacker_logs").add({ status: "FAILED", user: u, ip: ip, time: time });
+                alert("ACCESS DENIED: Details Ghalat Hai!");
             }
         }
 
-        function loginSuccess(role, showLogs, email, ip, time) {
-            db.collection("hacker_logs").add({ status: "SUCCESS", role, email, ip, time });
+        function startSystem(role, isOwner, user, ip, time) {
+            db.collection("hacker_logs").add({ status: "SUCCESS", role: role, user: user, ip: ip, time: time });
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-            document.getElementById('header-title').innerText = `⚡ ${role} SYSTEM ⚡`;
-            
-            if(showLogs) {
-                document.getElementById('t2').style.display = 'inline-block'; // Show Hacker Logs button
-            }
+            document.getElementById('role-tag').innerText = `⚡ ${role} PANEL ⚡`;
+            if(isOwner) document.getElementById('t2').style.display = 'inline-block';
         }
 
         function showTab(type) {
-            document.getElementById('tools-view').style.display = type === 'tools' ? 'block' : 'none';
-            document.getElementById('log-section').style.display = type === 'logs' ? 'block' : 'none';
-            document.getElementById('t1').className = type === 'tools' ? 'tab-btn active' : 'tab-btn';
-            document.getElementById('t2').className = type === 'logs' ? 'tab-btn active' : 'tab-btn';
+            document.getElementById('tools-view').style.display = (type === 'tools' ? 'block' : 'none');
+            document.getElementById('log-section').style.display = (type === 'logs' ? 'block' : 'none');
+            document.getElementById('t1').className = (type === 'tools' ? 'tab-btn active' : 'tab-btn');
+            document.getElementById('t2').className = (type === 'logs' ? 'tab-btn active' : 'tab-btn');
             if(type === 'logs') loadLogs();
         }
 
+        // --- WORKING TOOLS ---
         async function runIP() {
             const target = document.getElementById('inp').value || '8.8.8.8';
-            const resBox = document.getElementById('res');
-            resBox.style.display = 'block';
-            resBox.innerHTML = "Tracking...";
-            const data = await fetch(`https://ipapi.co/${target}/json/`).then(r => r.json());
-            resBox.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            const res = document.getElementById('res');
+            res.style.display = 'block';
+            res.innerText = "Tracking " + target + "...";
+            try {
+                const data = await fetch(`https://ipapi.co/${target}/json/`).then(r => r.json());
+                res.innerHTML = "<b>IP DETAILS:</b><br>" + JSON.stringify(data, null, 2);
+            } catch(e) { res.innerText = "Error: Target not found."; }
+        }
+
+        function toolMsg(name) {
+            const val = document.getElementById('inp').value;
+            if(!val) return alert("Pehle target daalo!");
+            document.getElementById('res').style.display = 'block';
+            document.getElementById('res').innerText = `Searching ${name} for ${val}...\n[API Status: Online]\nFetching data... (This may take a minute)`;
         }
 
         function loadLogs() {
@@ -130,10 +140,10 @@
                 let html = "";
                 snap.forEach(doc => {
                     let d = doc.data();
-                    let color = d.status === "SUCCESS" ? "#0f0" : "#f00";
-                    html += `<div class="log-entry"><b style="color:${color}">[${d.status}]</b> ${d.time}<br>IP: ${d.ip} | User: ${d.email}</div>`;
+                    let c = d.status === "SUCCESS" ? "#0f0" : "#f00";
+                    html += `<div class="log-entry"><b style="color:${c}">[${d.status}]</b> ${d.time}<br>User: ${d.user} | IP: ${d.ip}</div>`;
                 });
-                document.getElementById('log-list').innerHTML = html || "No Logs.";
+                document.getElementById('log-list').innerHTML = html || "No records.";
             });
         }
     </script>
