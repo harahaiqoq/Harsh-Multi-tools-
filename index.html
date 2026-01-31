@@ -3,39 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HARSH | MASTER SYSTEM v3.7</title>
+    <title>HARSH | PRO MASTER v3.8</title>
     <style>
         :root { --neon: #00ffcc; --bg: #050505; --hacker-green: #00ff41; --pink: #ff00ff; }
         body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; text-align: center; padding: 0; margin: 0; user-select: none; }
-        
-        /* Login UI */
-        .login-box { margin-top: 100px; background: #111; padding: 35px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; box-shadow: 0 0 20px rgba(0,255,204,0.3); width: 85%; max-width: 350px; }
-        input { width: 90%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--neon); box-shadow: 0 0 10px var(--neon); }
+        .login-box { margin-top: 100px; background: #111; padding: 35px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; width: 85%; max-width: 350px; }
+        input { width: 90%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px; outline: none; }
         .btn-main { background: var(--neon); color: #000; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 96%; margin-top: 10px; }
-
-        #main-content { display: none; padding: 20px; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        .welcome-banner { 
-            font-size: 18px; margin: 20px auto; color: var(--hacker-green); text-transform: uppercase; 
-            border: 2px solid var(--hacker-green); padding: 15px; display: inline-block; 
-            background: rgba(0, 255, 65, 0.05); border-radius: 5px; box-shadow: 0 0 15px rgba(0,255,65,0.2); 
-        }
-        
+        #main-content { display: none; padding: 20px; }
+        .welcome-banner { font-size: 18px; margin: 20px auto; color: var(--hacker-green); text-transform: uppercase; border: 2px solid var(--hacker-green); padding: 15px; display: inline-block; background: rgba(0, 255, 65, 0.05); border-radius: 5px; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 500px; margin: 20px auto; }
-        .card { background: #111; border: 1px solid #222; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 11px; transition: 0.3s; }
-        .card:hover { border-color: white; box-shadow: 0 0 10px var(--neon); }
-        
-        #res { background: #000; padding: 15px; border: 1px dashed var(--neon); margin-top: 20px; text-align: left; display: none; color: #0f0; font-size: 12px; white-space: pre-wrap; border-radius: 8px; }
-        
-        /* Logs Styling */
+        .card { background: #111; border: 1px solid #222; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 11px; }
+        #res { background: #000; padding: 15px; border: 1px dashed var(--neon); margin-top: 20px; text-align: left; display: none; color: #0f0; font-size: 12px; white-space: pre-wrap; }
         #log-section { display: none; text-align: left; background: #000; padding: 15px; border: 1px solid var(--hacker-green); margin-top: 20px; border-radius: 10px; max-height: 450px; overflow-y: auto; }
-        .log-item { border-bottom: 1px solid #222; padding: 10px 5px; font-size: 11px; line-height: 1.4; }
-        .tag-login { color: #00ffcc; font-weight: bold; }
-        .tag-action { color: var(--pink); font-weight: bold; }
-
-        .tab-btn { background: #222; color: var(--neon); border: 1px solid var(--neon); padding: 10px; width: 45%; margin: 5px; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        .log-item { border-bottom: 1px solid #222; padding: 10px 5px; font-size: 10px; }
+        .tab-btn { background: #222; color: var(--neon); border: 1px solid var(--neon); padding: 10px; width: 45%; margin: 5px; cursor: pointer; font-weight: bold; }
         .active { background: var(--neon); color: #000; }
     </style>
 </head>
@@ -43,21 +25,19 @@
 
     <div id="login-screen">
         <div class="login-box">
-            <h2 style="margin-top:0;">🔐 SYSTEM AUTH</h2>
+            <h2>🔐 SYSTEM AUTH</h2>
             <input type="text" id="user" placeholder="Username / Email">
             <input type="password" id="pass" placeholder="Password">
-            <button class="btn-main" onclick="validate()">AUTHORIZE</button>
+            <button class="btn-main" id="loginBtn" onclick="validate()">AUTHORIZE</button>
         </div>
     </div>
 
     <div id="main-content">
         <div id="user-greet" class="welcome-banner"></div>
-        
         <div>
             <button id="t1" class="tab-btn active" onclick="showTab('tools')">🛠️ TOOLS</button>
             <button id="t2" class="tab-btn" style="display:none;" onclick="showTab('logs')">📁 MASTER LOGS</button>
         </div>
-
         <div id="tools-view">
             <input type="text" id="inp" placeholder="Target Data..." style="width: 85%;">
             <div class="grid">
@@ -70,13 +50,11 @@
             </div>
             <div id="res"></div>
         </div>
-
         <div id="log-section">
-            <h3 style="color:var(--hacker-green); text-align:center; margin-top:0;">🛑 ACTIVITY (hacker_logs)</h3>
-            <div id="log-list"></div>
+            <h3 style="color:var(--hacker-green); text-align:center;">🛑 LIVE ACTIVITY</h3>
+            <div id="log-list">Loading telemetry...</div>
         </div>
-
-        <br><button onclick="location.reload()" style="color:red; background:none; border:none; cursor:pointer; font-weight:bold;">[ TERMINATE ]</button>
+        <br><button onclick="location.reload()" style="color:red; background:none; border:none; cursor:pointer;">[ DISCONNECT ]</button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -88,7 +66,7 @@
             a_u: "admin", a_p: "686172736840373836"                   // harsh@786
         };
         let sessionUser = "";
-        let sessionIP = "0.0.0.0";
+        let sessionIP = "Fetching...";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAyyQVzk9Z0pMEzcc0iNHn-aOAn73-IZ-A",
@@ -107,43 +85,50 @@
             const u = document.getElementById('user').value.trim();
             const p = document.getElementById('pass').value.trim();
             const pHex = toHex(p);
-            const device = navigator.userAgent.split('(')[1].split(')')[0] || "Unknown";
+            const btn = document.getElementById('loginBtn');
+            btn.innerText = "VERIFYING...";
 
             try { 
-                const res = await fetch('https://api.ipify.org?format=json');
-                const d = await res.json();
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                const d = await ipRes.json();
                 sessionIP = d.ip;
-            } catch(e){}
+            } catch(e){ sessionIP = "0.0.0.0"; }
 
             if(u === _auth.o_u && pHex === _auth.o_p) {
                 sessionUser = "MASTER_HARSH";
-                launch("WELCOME TO MASTER", true, device);
+                launch("WELCOME TO MASTER", true);
             } else if(u === _auth.a_u && pHex === _auth.a_p) {
                 sessionUser = "ADMIN_USER";
-                launch("WELCOME TO HACKER LOBBY", false, device);
+                launch("WELCOME TO HACKER LOBBY", false);
             } else {
-                db.collection("hacker_logs").add({ status: "DENIED", user: u, ip: sessionIP, time: new Date().toLocaleString() });
-                alert("ACCESS DENIED!");
+                btn.innerText = "AUTHORIZE";
+                alert("❌ ACCESS DENIED\nInvalid Credentials");
+                db.collection("hacker_logs").add({ status: "DENIED", user: u, ip: sessionIP, time: new Date().toLocaleString(), timestamp: Date.now() });
             }
         }
 
-        function launch(msg, isOwner, dev) {
+        function launch(msg, isOwner) {
             db.collection("hacker_logs").add({ 
-                status: "LOGIN", user: sessionUser, ip: sessionIP, device: dev, time: new Date().toLocaleString() 
+                status: "LOGIN", user: sessionUser, ip: sessionIP, time: new Date().toLocaleString(), timestamp: Date.now() 
+            }).then(() => {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('user-greet').innerText = msg;
+                if(isOwner) document.getElementById('t2').style.display = 'inline-block';
+            }).catch(e => {
+                console.log(e);
+                // Bypass if firebase fails but alert the user
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
             });
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            document.getElementById('user-greet').innerText = msg;
-            if(isOwner) document.getElementById('t2').style.display = 'inline-block';
         }
 
         async function run(ep, k) {
             const v = document.getElementById('inp').value;
-            if(!v) return alert("Enter target!");
-            db.collection("hacker_logs").add({ status: "SEARCH", user: sessionUser, action: ep.toUpperCase(), target: v, time: new Date().toLocaleString() });
-            
+            if(!v) return alert("Target dalo!");
+            db.collection("hacker_logs").add({ status: "SEARCH", user: sessionUser, action: ep.toUpperCase(), target: v, time: new Date().toLocaleString(), timestamp: Date.now() });
             const r = document.getElementById('res');
-            r.style.display = 'block'; r.innerHTML = "[+] Fetching...";
+            r.style.display = 'block'; r.innerHTML = "[+] Querying Worker...";
             try {
                 const res = await fetch(`https://api.b77bf911.workers.dev/${ep}?${k}=${v}`);
                 const data = await res.json();
@@ -154,7 +139,7 @@
         async function runIP() {
             const v = document.getElementById('inp').value;
             if(!v) return alert("Enter IP!");
-            db.collection("hacker_logs").add({ status: "SEARCH", user: sessionUser, action: "IP_TRACK", target: v, time: new Date().toLocaleString() });
+            db.collection("hacker_logs").add({ status: "SEARCH", user: sessionUser, action: "IP_TRACK", target: v, time: new Date().toLocaleString(), timestamp: Date.now() });
             const r = document.getElementById('res');
             r.style.display = 'block';
             try {
@@ -173,16 +158,22 @@
         }
 
         function loadLogs() {
-            db.collection("hacker_logs").orderBy("time", "desc").limit(30).onSnapshot(s => {
+            // Added timestamp field for better sorting
+            db.collection("hacker_logs").orderBy("timestamp", "desc").limit(20).onSnapshot(s => {
                 let h = "";
                 s.forEach(doc => {
                     let d = doc.data();
-                    if(d.status === "LOGIN") h += `<div class="log-item"><span class="tag-login">[LOGIN]</span> <b>${d.user}</b><br>IP: ${d.ip} | Dev: ${d.device}<br><small>${d.time}</small></div>`;
-                    else if(d.status === "SEARCH") h += `<div class="log-item"><span class="tag-action">[SEARCH]</span> <b>${d.user}</b> used ${d.action}<br>Target: <span style="color:yellow">${d.target}</span><br><small>${d.time}</small></div>`;
+                    let color = d.status === "LOGIN" ? "#00ffcc" : "#ff00ff";
+                    h += `<div class="log-item"><b style="color:${color}">[${d.status}]</b> ${d.user} | ${d.ip}<br>Target: ${d.target || 'N/A'} | ${d.time}</div>`;
                 });
-                document.getElementById('log-list').innerHTML = h || "No logs found.";
+                document.getElementById('log-list').innerHTML = h || "No telemetry records.";
+            }, err => {
+                // IMPORTANT: Agar console mein error aaye to is link pe click karke Index bana lena
+                document.getElementById('log-list').innerHTML = "<small style='color:red'>Firebase Index Required. Check Browser Console.</small>";
+                console.error("Index Error: ", err);
             });
         }
     </script>
 </body>
-</html>
+    </html>
+    
