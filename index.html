@@ -3,43 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HARSH | SYSTEM v3.4</title>
+    <title>HARSH | PRO MASTER v3.6</title>
     <style>
-        :root { --neon: #00ffcc; --bg: #050505; --hacker-green: #00ff41; }
+        :root { --neon: #00ffcc; --bg: #050505; --hacker-green: #00ff41; --pink: #ff00ff; }
         body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; text-align: center; padding: 0; margin: 0; user-select: none; }
         
-        /* Login UI */
         .login-box { margin-top: 100px; background: #111; padding: 35px; border-radius: 15px; border: 2px solid var(--neon); display: inline-block; box-shadow: 0 0 20px rgba(0,255,204,0.3); width: 85%; max-width: 350px; }
-        input { width: 90%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--neon); box-shadow: 0 0 10px var(--neon); }
+        input { width: 90%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px; outline: none; }
         .btn-main { background: var(--neon); color: #000; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 96%; margin-top: 10px; }
 
-        #main-content { display: none; padding: 20px; animation: fadeIn 1s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        /* Hacker Banner Style */
-        .welcome-banner { 
-            font-size: 20px; 
-            margin: 20px auto; 
-            color: var(--hacker-green); 
-            text-transform: uppercase; 
-            letter-spacing: 3px;
-            font-weight: bold;
-            text-shadow: 0 0 10px var(--hacker-green);
-            border: 2px solid var(--hacker-green);
-            padding: 15px;
-            display: inline-block;
-            background: rgba(0, 255, 65, 0.05);
-            border-radius: 5px;
-            box-shadow: inset 0 0 15px rgba(0, 255, 65, 0.1);
-        }
+        #main-content { display: none; padding: 20px; }
+        .welcome-banner { font-size: 18px; margin: 20px auto; color: var(--hacker-green); text-transform: uppercase; border: 2px solid var(--hacker-green); padding: 15px; display: inline-block; background: rgba(0, 255, 65, 0.05); border-radius: 5px; box-shadow: 0 0 15px rgba(0,255,65,0.2); }
         
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 500px; margin: 20px auto; }
         .card { background: #111; border: 1px solid #222; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 11px; transition: 0.3s; }
-        .card:hover { border-color: white; transform: translateY(-3px); box-shadow: 0 0 10px var(--neon); }
+        .card:hover { border-color: white; box-shadow: 0 0 10px var(--neon); }
         
         #res { background: #000; padding: 15px; border: 1px dashed var(--neon); margin-top: 20px; text-align: left; display: none; color: #0f0; font-size: 12px; white-space: pre-wrap; border-radius: 8px; }
         
+        /* Integrated Logs Styling */
+        #log-section { display: none; text-align: left; background: #000; padding: 15px; border: 1px solid var(--hacker-green); margin-top: 20px; border-radius: 10px; max-height: 450px; overflow-y: auto; }
+        .log-item { border-bottom: 1px solid #222; padding: 10px 5px; font-size: 11px; line-height: 1.5; }
+        .tag-login { color: #00ffcc; font-weight: bold; [LOG] }
+        .tag-action { color: var(--pink); font-weight: bold; [ACT] }
+
         .tab-btn { background: #222; color: var(--neon); border: 1px solid var(--neon); padding: 10px; width: 45%; margin: 5px; cursor: pointer; border-radius: 5px; font-weight: bold; }
         .active { background: var(--neon); color: #000; }
     </style>
@@ -48,25 +35,23 @@
 
     <div id="login-screen">
         <div class="login-box">
-            <h2 style="margin-top:0;">🛡️ SYSTEM AUTH</h2>
-            <input type="text" id="user" placeholder="Username / Email">
+            <h2 style="margin-top:0;">🛡️ AUTHENTICATION</h2>
+            <input type="text" id="user" placeholder="Email / Username">
             <input type="password" id="pass" placeholder="Password">
-            <button class="btn-main" onclick="validate()">AUTHORIZE</button>
+            <button class="btn-main" onclick="validate()">CONNECT</button>
         </div>
     </div>
 
     <div id="main-content">
-        <h1 style="font-size: 12px; opacity: 0.5;">[ ENCRYPTED SESSION ACTIVE ]</h1>
-        
         <div id="user-greet" class="welcome-banner"></div>
         
-        <div style="margin-top: 20px;">
+        <div>
             <button id="t1" class="tab-btn active" onclick="showTab('tools')">🛠️ TOOLS</button>
-            <button id="t2" class="tab-btn" style="display:none;" onclick="showTab('logs')">📁 LOGS</button>
+            <button id="t2" class="tab-btn" style="display:none;" onclick="showTab('logs')">📁 MASTER LOGS</button>
         </div>
 
         <div id="tools-view">
-            <input type="text" id="inp" placeholder="Target Detail..." style="width: 85%;">
+            <input type="text" id="inp" placeholder="Target Data..." style="width: 85%;">
             <div class="grid">
                 <div class="card" onclick="run('mobile', 'number')">📱 MOBILE</div>
                 <div class="card" onclick="runIP()">🌐 IP TRACK</div>
@@ -78,25 +63,24 @@
             <div id="res"></div>
         </div>
 
-        <div id="log-section" style="display:none; text-align: left; background: #000; padding: 15px; border: 1px solid var(--hacker-green); margin-top: 20px; border-radius: 10px;">
-            <h3 style="color:var(--hacker-green); text-align:center;">🔴 ACCESS LOGS</h3>
-            <div id="log-list" style="font-size: 11px;"></div>
+        <div id="log-section">
+            <h3 style="color:var(--hacker-green); text-align:center; margin-top:0;">🛑 SYSTEM TELEMETRY (hacker_logs)</h3>
+            <div id="log-list"></div>
         </div>
 
-        <br><button onclick="location.reload()" style="color:red; background:none; border:none; cursor:pointer; font-weight:bold;">[ TERMINATE SESSION ]</button>
+        <br><button onclick="location.reload()" style="color:red; background:none; border:none; cursor:pointer; font-size:10px;">[ DISCONNECT SESSION ]</button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // Credentials (Hex Encoded for protection)
         const _auth = {
-            owner_u: "harsh48227@gmail.com",
-            owner_p: "68617273684031323334", // hex for harsh@1234
-            admin_u: "admin",
-            admin_p: "686172736840373836"    // hex for harsh@786
+            o_u: "harsh48227@gmail.com", o_p: "68617273684031323334",
+            a_u: "admin", a_p: "686172736840373836"
         };
+        let sessionUser = "";
+        let sessionIP = "";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAyyQVzk9Z0pMEzcc0iNHn-aOAn73-IZ-A",
@@ -109,85 +93,34 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        function toHex(str) {
-            let hex = '';
-            for(let i=0;i<str.length;i++) hex += str.charCodeAt(i).toString(16);
-            return hex;
-        }
+        function toHex(s) { let h=''; for(let i=0;i<s.length;i++) h+=s.charCodeAt(i).toString(16); return h; }
 
         async function validate() {
             const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            const pHex = toHex(p);
+            const p = toHex(document.getElementById('pass').value);
+            const device = navigator.userAgent.match(/\(([^)]+)\)/)[1] || "Unknown Device";
             
-            let ip = "0.0.0.0";
-            try { await fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => ip = d.ip); } catch(e){}
+            try { await fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>sessionIP=d.ip); } catch(e){ sessionIP="0.0.0.0"; }
 
-            if(u === _auth.owner_u && pHex === _auth.owner_p) {
-                launch("WELCOME TO MASTER", true, u, ip);
-            } else if(u === _auth.admin_u && pHex === _auth.admin_p) {
-                launch("WELCOME TO HACKER LOBBY", false, u, ip);
+            if(u === _auth.o_u && p === _auth.o_p) {
+                sessionUser = "MASTER_HARSH";
+                launch("WELCOME TO MASTER", true, device);
+            } else if(u === _auth.a_u && p === _auth.a_p) {
+                sessionUser = "ADMIN_USER";
+                launch("WELCOME TO HACKER LOBBY", false, device);
             } else {
-                db.collection("hacker_logs").add({ status: "DENIED", user: u, ip: ip, time: new Date().toLocaleString() });
-                alert("ACCESS DENIED: Unauthorized Credentials.");
+                db.collection("hacker_logs").add({ status: "DENIED", user: u, ip: sessionIP, time: new Date().toLocaleString() });
+                alert("INVALID LOGIN");
             }
         }
 
-        function launch(msg, isOwner, user, ip) {
-            db.collection("hacker_logs").add({ status: "GRANTED", user: user, ip: ip, time: new Date().toLocaleString() });
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            document.getElementById('user-greet').innerText = msg;
-            if(isOwner) document.getElementById('t2').style.display = 'inline-block';
-        }
-
-        function showTab(t) {
-            document.getElementById('tools-view').style.display = (t === 'tools' ? 'block' : 'none');
-            document.getElementById('log-section').style.display = (t === 'logs' ? 'block' : 'none');
-            document.getElementById('t1').className = (t === 'tools' ? 'tab-btn active' : 'tab-btn');
-            document.getElementById('t2').className = (t === 'logs' ? 'tab-btn active' : 'tab-btn');
-            if(t === 'logs') loadLogs();
-        }
-
-        async function run(ep, k) {
-            const v = document.getElementById('inp').value;
-            const r = document.getElementById('res');
-            if(!v) return alert("Please enter target data!");
-            r.style.display = 'block'; r.innerHTML = "[~] Establishing Connection...";
-            try {
-                const res = await fetch(`https://api.b77bf911.workers.dev/${ep}?${k}=${v}`);
-                const data = await res.json();
-                r.innerHTML = "<strong>DATA RECOVERED:</strong>\n" + JSON.stringify(data, null, 2);
-            } catch(e) { r.innerHTML = "[!] API Error: Connection Timed Out"; }
-        }
-
-        async function runIP() {
-            const v = document.getElementById('inp').value;
-            const r = document.getElementById('res');
-            if(!v) return alert("IP required!");
-            r.style.display = 'block';
-            try {
-                const res = await fetch(`https://ipapi.co/${v}/json/`);
-                const data = await res.json();
-                r.innerHTML = "<strong>IP GEOLOCATION:</strong>\n" + JSON.stringify(data, null, 2);
-            } catch(e) { r.innerHTML = "[!] Trace Failed"; }
-        }
-
-        function loadLogs() {
-            db.collection("hacker_logs").orderBy("time", "desc").limit(8).onSnapshot(s => {
-                let h = "";
-                s.forEach(doc => {
-                    let d = doc.data();
-                    let c = d.status === "GRANTED" ? "#0f0" : "#f00";
-                    h += `<div style="border-bottom:1px solid #222; padding:5px;">
-                        <b style="color:${c}">[${d.status}]</b> ${d.user} | ${d.ip}<br>
-                        <small style="color:#888;">${d.time}</small>
-                    </div>`;
-                });
-                document.getElementById('log-list').innerHTML = h || "No records.";
+        function launch(msg, isOwner, dev) {
+            db.collection("hacker_logs").add({ 
+                status: "LOGIN", 
+                user: sessionUser, 
+                ip: sessionIP, 
+                device: dev, 
+                time: new Date().toLocaleString() 
             });
-        }
-    </script>
-</body>
-    </html>
-    
+            document.getElementById('
+        
