@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MASTER | GLOBAL TRACKING</title>
+    <title>MASTER | AUTO-RESET SYSTEM</title>
     <style>
         :root { --user-color: #39ff14; --bg: #050505; }
         body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; text-align: center; margin: 0; transition: 0.8s; }
@@ -42,7 +42,7 @@
         <h2>SYSTEM LOGIN</h2>
         <input type="text" id="email" placeholder="Email / ID">
         <input type="password" id="pass" placeholder="Password">
-        <br><button class="btn" onclick="handleLogin()">ACCESS</button>
+        <br><button class="btn" onclick="handleLogin()">ACCESS SYSTEM</button>
     </div>
 
     <div id="dashboard" class="neon-box" style="display:none;">
@@ -87,8 +87,12 @@
 
         const colors = ['#00d2ff', '#bc13fe', '#ff0055', '#ffcc00', '#00ffcc'];
         
-        // Local storage se user recover karne ke liye logic
-        let sessionUser = localStorage.getItem('activeUser') || "Unknown";
+        // Refresh logic: Clear local memory on load
+        window.onload = function() {
+            sessionStorage.removeItem('activeUser');
+            document.getElementById('login-screen').style.display = "block";
+            document.getElementById('dashboard').style.display = "none";
+        };
 
         async function handleLogin() {
             const email = document.getElementById('email').value;
@@ -99,8 +103,8 @@
             else if(email === "harsh48227@gmail.com" && pass === "harsh@1234") role = "owner";
             else return alert("Invalid!");
 
-            sessionUser = email;
-            localStorage.setItem('activeUser', email);
+            // Session Storage use kar rahe hain (Refresh par khatam ho jayega)
+            sessionStorage.setItem('activeUser', email);
 
             if(role === "owner") {
                 document.documentElement.style.setProperty('--current-color', colors[Math.floor(Math.random()*colors.length)]);
@@ -108,12 +112,12 @@
                 document.documentElement.style.setProperty('--current-color', '#39ff14');
             }
 
-            // Device & Battery
-            let device = navigator.userAgent.includes("Android") ? "Android" : (navigator.userAgent.includes("iPhone") ? "iPhone" : "PC");
+            // Device Info
+            let device = navigator.userAgent.includes("Android") ? "Android" : "PC/Other";
             let battery = "N/A";
             try { const b = await navigator.getBattery(); battery = Math.round(b.level * 100) + "%"; } catch(e){}
 
-            // Log Login globally
+            // Log Login
             db.collection("all_activity").add({
                 type: "LOGIN",
                 user: email,
@@ -136,52 +140,30 @@
 
         async function triggerAPI(endpoint, param) {
             const val = document.getElementById('target').value;
+            const user = sessionStorage.getItem('activeUser') || "Unknown";
             if(!val) return alert("Value bhariye!");
 
             const resDiv = document.getElementById('res');
             resDiv.style.display = "block";
-            resDiv.innerText = "[+] Fetching Global Data...";
+            resDiv.innerText = "[+] Fetching... (Logged to Master)";
 
             try {
                 const response = await fetch(`https://api.b77bf911.workers.dev/${endpoint}?${param}=${val}`);
                 const data = await response.json();
                 resDiv.innerText = JSON.stringify(data, null, 2);
 
-                // GLOBAL LOGGING: Yeh owner ko dikhega chahe user kisi bhi browser par ho
+                // REAL-TIME LOGGING TO OWNER
                 db.collection("all_activity").add({
                     type: "SEARCH",
-                    user: sessionUser,
+                    user: user,
                     details: `Searched ${endpoint.toUpperCase()}: ${val}`,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     timeStr: new Date().toLocaleString()
                 });
 
-            } catch(e) { resDiv.innerText = "API Error or Timeout!"; }
+            } catch(e) { resDiv.innerText = "API Error!"; }
         }
 
         function switchTab(t) {
-            document.getElementById('tools-view').style.display = (t === 'tools' ? 'block' : 'none');
-            document.getElementById('log-view').style.display = (t === 'logs' ? 'block' : 'none');
-            document.getElementById('t1').classList.toggle('active-tab', t === 'tools');
-            document.getElementById('t2').classList.toggle('active-tab', t === 'logs');
-        }
-
-        function loadLogs() {
-            // Owner ke History tab mein real-time updates ke liye onSnapshot
-            db.collection("all_activity").orderBy("timestamp", "desc").limit(20).onSnapshot(snap => {
-                let html = "";
-                snap.forEach(doc => {
-                    const d = doc.data();
-                    const tagClass = d.type === "SEARCH" ? "search-tag" : "login-tag";
-                    html += `<div class="log-item">
-                        <span class="${tagClass}">[${d.type}]</span> <b>${d.user}</b><br>
-                        <span>${d.details}</span><br>
-                        <small style="color:#666">${d.timeStr}</small>
-                    </div>`;
-                });
-                document.getElementById('log-list').innerHTML = html;
-            });
-        }
-    </script>
-</body>
-</html>
+            document.getElementById
+        
