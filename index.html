@@ -3,94 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Updated | Join Telegram</title>
+    <title>Platform Update</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        
-        .glass-card {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .animated-bg {
-            background: radial-gradient(circle at 0% 0%, #1e1b4b 0%, #0f172a 50%, #000000 100%);
-        }
-
-        .btn-shimmer {
-            background: linear-gradient(110deg, #0088cc 45%, #4db8ff 50%, #0088cc 55%);
-            background-size: 200% 100%;
-            animation: shimmer 2s linear infinite;
-        }
-
-        @keyframes shimmer {
-            to { background-position: -200% 0; }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+        body { font-family: 'Outfit', sans-serif; background-color: #050505; user-select: none; }
+        .neon-border { border: 1px solid rgba(59, 130, 246, 0.3); box-shadow: 0 0 20px rgba(59, 130, 246, 0.1); }
+        .gradient-text { background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
-<body class="animated-bg min-h-screen flex items-center justify-center p-5 text-white overflow-hidden">
+<body class="min-h-screen flex items-center justify-center p-6 relative overflow-hidden" oncontextmenu="return false;">
 
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-900/20 rounded-full blur-[120px]"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-900/20 rounded-full blur-[120px]"></div>
-    </div>
-
-    <div class="glass-card max-w-md w-full rounded-[2.5rem] p-10 text-center relative">
+    <div class="max-w-md w-full bg-[#0a0a0a]/80 backdrop-blur-xl rounded-[2rem] p-10 text-center neon-border relative z-10">
+        <h1 class="text-3xl font-bold gradient-text mb-3">System Update</h1>
+        <p class="text-slate-500 text-sm mb-10">Harsh ke official Telegram ko join karein.</p>
         
-        <div class="mb-8">
-            <div class="w-24 h-24 bg-gradient-to-tr from-blue-600 to-indigo-400 rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-blue-500/20 rotate-3">
-                <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                </svg>
-            </div>
-        </div>
-
-        <div class="space-y-3 mb-10">
-            <h1 class="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
-                Important Update!
-            </h1>
-            <p class="text-slate-400 text-base font-medium leading-relaxed px-2">
-                Hamari purani website ab band ho chuki hai. Agli sabhi updates aur files ke liye hamara official Telegram channel join karein.
-            </p>
-        </div>
-
-        <div class="space-y-6">
-            <a href="https://t.me/+DvSgQwffeiwxMzg" 
-               class="btn-shimmer flex items-center justify-center gap-3 w-full py-5 text-white font-bold rounded-2xl transition-all duration-300 transform hover:scale-[1.03] active:scale-95 shadow-xl shadow-blue-900/20">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.37-1 .55-1.42.54-.46-.01-1.35-.26-2.01-.48-.81-.27-1.46-.42-1.4-.88.03-.24.3-.49.8-.75 3.12-1.35 5.2-2.26 6.24-2.67 2.96-1.14 3.58-1.34 3.99-1.34.09 0 .29.02.42.12.11.09.15.21.16.33z"/></svg>
-                JOIN TELEGRAM CHANNEL
-            </a>
-            
-            <div class="flex items-center justify-center gap-2">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                </span>
-                <p class="text-[11px] text-slate-500 font-bold uppercase tracking-widest">
-                    Redirecting in <span id="timer" class="text-blue-400">10</span>s
-                </p>
-            </div>
-        </div>
-
-        <div class="mt-12 pt-6 border-t border-white/5">
-            <p class="text-[10px] text-slate-600 font-semibold tracking-tighter uppercase">Verified Community Portal</p>
-        </div>
+        <a href="https://t.me/+DvSgQwffeiwxMzg1" class="flex items-center justify-center gap-3 w-full py-4 bg-blue-600 text-white font-bold rounded-xl shadow-lg">
+            JOIN TELEGRAM
+        </a>
+        
+        <p class="mt-6 text-[10px] text-slate-600 uppercase tracking-widest">
+            Redirecting in <span id="secs" class="text-blue-500">5</span>s
+        </p>
     </div>
 
     <script>
-        let count = 10;
-        const timerEl = document.getElementById('timer');
-        const tgLink = "https://t.me/+DvSgQwffeiwxMzg";
+        // Welcome Message
+        window.onload = function() { alert("Welcome to Harsh Telegram!"); };
 
-        const countdown = setInterval(() => {
-            count--;
-            timerEl.textContent = count;
-            if (count <= 0) {
-                clearInterval(countdown);
-                window.location.href = tgLink;
+        // Redirect Logic
+        let timeLeft = 5;
+        setInterval(() => {
+            timeLeft--;
+            document.getElementById('secs').textContent = timeLeft;
+            if (timeLeft <= 0) { window.location.href = "https://t.me/+DvSgQwffeiwxMzg1"; }
+        }, 1000);
+
+        // --- ANTI-INSPECT SECURITY ---
+        
+        // Disable F12 and Shortcuts
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
+                return false;
+            }
+        };
+
+        // DevTools Detection (Agar inspect khula toh page khaali kar dega)
+        setInterval(function(){
+            if(window.devtools && window.devtools.isOpen){
+                document.body.innerHTML = "<h1>Security Alert: Inspecting not allowed!</h1>";
             }
         }, 1000);
     </script>
